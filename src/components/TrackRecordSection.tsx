@@ -41,7 +41,7 @@ export function TrackRecordSection() {
               <span className="text-gray-400 text-xs font-mono uppercase tracking-widest">Est. Notional</span>
               <ShieldCheck size={16} className="text-[#1b17ff]" />
             </div>
-            <div className="text-3xl font-bold text-white mb-1">&gt;20,000 USD</div>
+            <div className="text-3xl font-bold text-white mb-1">&gt;30,000 USD</div>
             <div className="text-xs text-gray-500 font-mono">Proprietary Capital Deployed</div>
           </FadeIn>
 
