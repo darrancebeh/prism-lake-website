@@ -187,9 +187,9 @@ function FounderSection() {
             </div>
             
             <p className="text-gray-300 leading-relaxed font-light text-sm md:text-base mb-6">
-              A first-class Computer Science undergrad and active discretionary and quantitative investor navigating the markets since 15 in 2020.
+              A first-class Computer Science undergrad and active discretionary and quantitative investor-trader navigating the markets since 15 in 2020.
               He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, and leverages on a background in <span className="text-white font-medium">Competitive Programming</span> and 
-              <span className="text-white font-medium"> State-Level Debating</span> to decode market signals.
+              <span className="text-white font-medium"> State-Level Debating</span> to exploit market psychology.
             </p>
 
             {/* Socials / Secondary Stats */}
@@ -234,7 +234,7 @@ function FounderSection() {
             {/* The Context */}
             <div className="text-center md:text-right max-w-sm">
               <p className="text-sm text-gray-300 font-light leading-relaxed">
-                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities.
+                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities since 2020.
               </p>
               <div className="mt-3 text-xs text-gray-500 font-mono border-t border-white/5 pt-3 inline-block">
                 Currently self-funding Sunway University tuition (~RM60k) purely through portfolio.
