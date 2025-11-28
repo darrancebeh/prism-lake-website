@@ -227,7 +227,7 @@ function FounderSection() {
                 <span className="text-4xl md:text-5xl font-bold text-white">6-Figures</span>
               </div>
               <div className="mt-2 inline-flex items-center gap-2 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-[10px] text-green-400 font-mono">
-                <TrendingUp size={10} /> 59.8% CAGR (5 Years, RM400 monthly DCA)
+                <TrendingUp size={10} /> 59.8% CAGR (5 Years, RM400 AVG Monthly DCA)
               </div>
             </div>
 
