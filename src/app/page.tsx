@@ -70,7 +70,7 @@ export default function Home() {
             <Card 
               icon={<Cpu className="w-6 h-6 text-[#1b17ff]" />}
               title="Quantitative"
-              desc="We combine traditional market analysis, statistical and quantitative expertise with algorithmic execution."
+              desc="We combine traditional market analysis, with statistical and quantitative expertise and algorithmic execution."
             />
           </FadeIn>
           <FadeIn delay={0.3} className="h-full">
