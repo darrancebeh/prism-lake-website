@@ -1,92 +1,79 @@
-import { NextRequest, NextResponse } from "next/server";
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { JWT } from "google-auth-library";
-import { put } from "@vercel/blob";
-import nodemailer from "nodemailer";
+// ... existing imports ...
 
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     
-    // 1. Extract Data
+    // 1. Extract ALL new fields
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string; // NEW
+    const university = formData.get("university") as string; // NEW
+    const course = formData.get("course") as string; // NEW
+    const year = formData.get("year") as string; // NEW
+    const transport = formData.get("transport") as string; // NEW
+    const club = formData.get("club") as string; // NEW
+    
     const role = formData.get("role") as string;
     const linkedin = formData.get("linkedin") as string;
     const portfolio = formData.get("portfolio") as string;
-    const why = formData.get("why") as string;
+    const essay = formData.get("essay") as string; // Renamed from 'why'
     const resumeFile = formData.get("resume") as File;
 
-    if (!resumeFile) {
-      return NextResponse.json({ error: "No resume uploaded" }, { status: 400 });
-    }
+    if (!resumeFile) return NextResponse.json({ error: "No resume" }, { status: 400 });
 
-    // 2. Upload Resume to Vercel Blob (Cloud Storage)
-    // We rename it to include the user's name for easier organization
+    // 2. Upload Resume (Same as before)
     const filename = `${role}-${name.replace(/\s+/g, "_")}-resume.pdf`;
-    const blob = await put(filename, resumeFile, {
-      access: "public",
-    });
+    const blob = await put(filename, resumeFile, { access: "public" });
 
-    // 3. Authenticate with Google Sheets
-    const serviceAccountAuth = new JWT({
-      email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      key: process.env.GOOGLE_PRIVATE_KEY!.replace(/\\n/g, "\n"), // Fix newline escape issues
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
+    // 3. Google Sheets Logic
+    // ... auth logic same as before ...
 
-    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID!, serviceAccountAuth);
-    await doc.loadInfo();
-
-    // Get the first sheet
-    const sheet = doc.sheetsByIndex[0];
-
-    // Ensure headers exist (Optional, but good for first run)
-    await sheet.setHeaderRow([
-      "Date", "Name", "Email", "Role", "LinkedIn", "Portfolio", "Why Prism?", "Resume URL", "Status"
-    ]);
-
-    // 4. Append the Row
+    // IMPORTANT: Update your Google Sheet Header Row manually or use code
+    // Columns: Date | Name | Email | Phone | Uni | Course | Year | Transport | Club | Role | LinkedIn | Portfolio | Essay | Resume | Status
+    
     await sheet.addRow({
       Date: new Date().toISOString(),
       Name: name,
       Email: email,
+      Phone: phone,
+      University: university,
+      Course: course,
+      Year: year,
+      Transport: transport,
+      Club: club || "N/A",
       Role: role,
       LinkedIn: linkedin,
       Portfolio: portfolio,
-      "Why Prism?": why,
+      Essay: essay,
       "Resume URL": blob.url,
       Status: "Pending Review"
     });
 
-    // 5. Send Notification Email (Nodemailer)
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
+    // 4. Send Email (Include new fields in the HTML)
     await transporter.sendMail({
       from: `"Prism Lake System" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // Send to yourself
-      subject: `[APPLY] New Candidate: ${name} (${role})`,
+      to: process.env.EMAIL_USER,
+      subject: `[APPLY] ${name} - ${role}`,
       html: `
-        <h3>New Application Received</h3>
-        <p><strong>Name:</strong> ${name}</p>
+        <h3>New Candidate: ${name}</h3>
         <p><strong>Role:</strong> ${role}</p>
-        <p><strong>LinkedIn:</strong> <a href="${linkedin}">${linkedin}</a></p>
-        <p><strong>Resume:</strong> <a href="${blob.url}">Download PDF</a></p>
+        <p><strong>University:</strong> ${university} (${year})</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Transport:</strong> ${transport}</p>
+        <p><strong>Club:</strong> ${club}</p>
         <hr />
-        <p><strong>Why Prism?</strong><br/>${why}</p>
+        <p><strong>Essay Response:</strong><br/>${essay.replace(/\n/g, '<br/>')}</p>
+        <hr />
+        <p><a href="${blob.url}">Download Resume PDF</a></p>
+        <p><a href="${linkedin}">LinkedIn Profile</a></p>
       `,
     });
 
     return NextResponse.json({ success: true });
 
   } catch (error) {
-    console.error("Application Error:", error);
+    console.error("API Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
