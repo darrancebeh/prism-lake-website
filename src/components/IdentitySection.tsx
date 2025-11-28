@@ -22,7 +22,7 @@ export function IdentitySection() {
           <h3 className="text-[#1b17ff] font-mono text-sm mb-2">THE VISION</h3>
           <h4 className="text-2xl font-bold mb-4">The &quot;Jane Street&quot; of Malaysia.</h4>
           <p className="text-gray-400 leading-relaxed max-w-lg">
-            To establish Malaysia&apos;s premier <span className="text-white">Quantamental Proprietary Trading Firm</span>. 
+            To establish Malaysia&apos;s premier <span className="text-white">Quantitative Research & Proprietary Trading Firm</span>. 
             We envision a future where elite local talent fuses fundamental insight with 
             quantitative rigor to generate verified alpha in US markets.
           </p>
