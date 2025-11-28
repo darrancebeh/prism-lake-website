@@ -70,3 +70,9 @@ body {
 @utility text-gradient-prism {
   @apply text-transparent bg-clip-text bg-gradient-to-r from-white via-[#1b17ff] to-white bg-[length:200%_auto] animate-pulse-slow;
 }
+
+@layer components {
+  .prism-input {
+    @apply w-full bg-[#0a1128] border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#1b17ff] focus:ring-1 focus:ring-[#1b17ff] transition-all font-mono text-sm;
+  }
+}

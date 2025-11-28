@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { MarketTicker } from "@/components/MarketTicker";
 import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 // 1. Font Configuration
 const inter = Inter({
@@ -49,6 +50,8 @@ export default function RootLayout({
 
         {/* 4. Global Footer */}
         <Footer />
+
+        <ScrollProgress />
 
         {/* 5. Global Ambient Effects */}
         {/* Bottom Glow */}

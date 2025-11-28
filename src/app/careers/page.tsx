@@ -266,7 +266,7 @@ export default function CareersPage() {
                         </ul>
 
                         <Link 
-                          href="https://forms.gle/hLKy96cNe7e5atUDA" 
+                          href="/apply" 
                           target="_blank"
                           className="w-full py-4 bg-[#1b17ff] text-white font-bold rounded-lg hover:bg-[#1b17ff]/90 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(27,23,255,0.3)]"
                         >
@@ -293,7 +293,7 @@ export default function CareersPage() {
             apply to the General Pool. We carve roles for the right people.
           </p>
           <Link 
-            href="https://forms.gle/hLKy96cNe7e5atUDA" 
+            href="/apply" 
             target="_blank"
             className="inline-flex px-8 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold"
           >
