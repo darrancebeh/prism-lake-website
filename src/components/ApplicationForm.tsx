@@ -160,7 +160,7 @@ export function ApplicationForm() {
         </div>
 
         <InputGroup label="Investment Club / Society Affiliation" error={errors.club}>
-          <input {...register("club")} className="prism-input" placeholder="e.g. Sunway Investment Society - Vice President (Leave blank if none)" />
+          <input {...register("club")} className="prism-input" placeholder="e.g. Sunway Business Investment Society - Vice President (Leave blank if N/A)" />
         </InputGroup>
       </div>
 
@@ -211,7 +211,7 @@ export function ApplicationForm() {
             </select>
           </InputGroup>
 
-          <InputGroup label="GitHub / Portfolio" error={errors.portfolio}>
+          <InputGroup label="GitHub / Portfolio Link" error={errors.portfolio}>
             <input {...register("portfolio")} className="prism-input" placeholder="Optional but recommended" />
           </InputGroup>
         </div>
