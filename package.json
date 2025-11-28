@@ -9,12 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.555.0",
     "next": "16.0.5",
+    "next-mdx-remote": "^5.0.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "recharts": "^3.5.1",
-    "rss-parser": "^3.13.0"
+    "recharts": "^3.5.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -44,6 +44,7 @@ export default function Home() {
 
       {/* 4. TRACK RECORD SECTION (Charts) */}
       <TrackRecordSection />
+
       <ResearchSection />
       
       {/* 5. CALL TO ACTION FOOTER */}

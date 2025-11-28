@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography"; /* Add this line */
 
 @theme {
   /* YOUR BRAND COLORS */
