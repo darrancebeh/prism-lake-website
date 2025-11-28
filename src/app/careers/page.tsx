@@ -199,7 +199,7 @@ export default function CareersPage() {
                     w-14 h-14 rounded-xl flex items-center justify-center transition-colors
                     ${expandedId === role.id ? 'bg-[#1b17ff] text-white' : 'bg-[#1b17ff]/10 text-[#1b17ff]'}
                   `}>
-                    {React.cloneElement(role.icon as React.ReactElement, { size: 28 })}
+                      {React.cloneElement(role.icon as React.ReactElement<{ size?: number }>, { size: 28 })}
                   </div>
                   
                   {/* Title & Short Desc */}
