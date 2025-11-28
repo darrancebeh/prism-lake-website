@@ -42,7 +42,7 @@ export default function Home() {
           {/* Sub-headline */}
           <p className="text-lg md:text-xl text-gray-400 text-center max-w-2xl mb-10 leading-relaxed font-light">
             Prism Lake is a student-founded, and Malaysia&apos;s first <span className="text-white font-medium">Quantitative Research & Proprietary Trading Firm</span>.
-            We deploy proprietary capital into US Equities & Derivatives using institutional-grade research.
+            We deploy our proprietary capital into US Equities & Derivatives using institutional-grade research.
           </p>
 
           {/* CTA Buttons */}
@@ -69,22 +69,22 @@ export default function Home() {
           <FadeIn delay={0.2} className="h-full">
             <Card 
               icon={<Cpu className="w-6 h-6 text-[#1b17ff]" />}
-              title="Algorithmic Execution"
-              desc="Automated Python pipelines executing volatility strategies on US Options."
+              title="Quantitative"
+              desc="We combine traditional market analysis, statistical and quantitative expertise with algorithmic execution."
             />
           </FadeIn>
           <FadeIn delay={0.3} className="h-full">
             <Card 
               icon={<ShieldCheck className="w-6 h-6 text-[#1b17ff]" />}
-              title="Proprietary Capital"
-              desc="We trade our own skin in the game. No client funds. No simulations."
+              title="Proprietary"
+              desc="We deploy proprietary, principal capital to capture market opportunities. We do not manage external client funds."
             />
           </FadeIn>
           <FadeIn delay={0.4} className="h-full">
             <Card 
               icon={<TrendingUp className="w-6 h-6 text-[#1b17ff]" />}
-              title="Glass Box Research"
-              desc="We publish our logic. 100% transparency on wins, losses, and models."
+              title="Research"
+              desc="We actively conduct and publish our research, sharing institutional-grade analysis and market theses to demonstrate our expertise and educate the ecosystem."
             />
           </FadeIn>
         </div>
