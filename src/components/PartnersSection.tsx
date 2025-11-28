@@ -11,7 +11,7 @@ export function PartnersSection() {
     {
       name: "Interactive Brokers",
       logo: "/logos/ibkr3.png",
-      category: "Prime Execution",
+      category: "Execution Venue & Market Data Stream",
       width: 160,
     },
     {
