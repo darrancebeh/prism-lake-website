@@ -21,6 +21,11 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Prism Lake",
   description: "Malaysia's First US-Market Quantitative Research & Proprietary Trading Firm.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+    shortcut: "/icon.png",
+  },
 };
 
 export default function RootLayout({
