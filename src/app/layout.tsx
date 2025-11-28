@@ -20,10 +20,10 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prism Lake | Quantamental Research",
+  title: "Prism Lake",
   description: "Bridging the gap between academic theory and market reality. Malaysia's first student-founded US Proprietary Trading Firm.",
   icons: {
-    icon: "/favicon.ico", // Ensure you have a favicon in /public
+    icon: "/icon.png", // Ensure you have a favicon in /public
   },
 };
 
