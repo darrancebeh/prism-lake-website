@@ -85,7 +85,7 @@ export function PartnersSection() {
         {/* Disclaimer */}
         <div className="mt-20 pt-8 border-t border-white/5 text-center md:text-left">
            <p className="text-[10px] text-gray-700 font-mono">
-             *Logos represent the firm's operational infrastructure, talent origins, and network. Prism Lake is an independent proprietary firm.
+             *Logos represent the firm&apos;s operational infrastructure, talent origins, and network. Prism Lake is an independent proprietary firm.
            </p>
         </div>
 
