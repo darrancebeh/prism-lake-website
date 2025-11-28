@@ -29,8 +29,7 @@ export function ResearchSection() {
           </h2>
           
           <p className="mt-4 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
-            We don&apos;t sell signals. We publish <strong>Institutional Logic</strong>. <br />
-            Deep-dives on Market Microstructure, Volatility Flows, and Macro-Quant setups.
+            <b>Prism Intelligence</b> is our proprietary research arm. We publish <strong>institutional-level coverage</strong> on real-time market dynamics, news, ongoing events and catalysts, and educational deep-dives.
           </p>
         </div>
         
