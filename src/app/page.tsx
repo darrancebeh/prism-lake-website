@@ -42,7 +42,7 @@ export default function Home() {
           {/* Sub-headline */}
           <p className="text-lg md:text-xl text-gray-400 text-center max-w-2xl mb-10 leading-relaxed font-light">
             Prism Lake is a student-founded, and Malaysia&apos;s first <span className="text-white font-medium">Quantitative Research & Proprietary Trading Firm</span>.
-            We deploy proprietary capital into US Equities & Derivatives using institutional-grade math.
+            We deploy proprietary capital into US Equities & Derivatives using institutional-grade research.
           </p>
 
           {/* CTA Buttons */}

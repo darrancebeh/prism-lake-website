@@ -1,79 +1,103 @@
-// ... existing imports ...
+import { NextRequest, NextResponse } from "next/server";
+import { google } from "googleapis";
+import { JWT } from "google-auth-library";
+import { put } from "@vercel/blob";
+import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     
-    // 1. Extract ALL new fields
+    // Extract form fields
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
-    const phone = formData.get("phone") as string; // NEW
-    const university = formData.get("university") as string; // NEW
-    const course = formData.get("course") as string; // NEW
-    const year = formData.get("year") as string; // NEW
-    const transport = formData.get("transport") as string; // NEW
-    const club = formData.get("club") as string; // NEW
-    
+    const phone = formData.get("phone") as string;
+    const university = formData.get("university") as string;
+    const course = formData.get("course") as string;
+    const year = formData.get("year") as string;
+    const transport = formData.get("transport") as string;
+    const club = formData.get("club") as string;
     const role = formData.get("role") as string;
     const linkedin = formData.get("linkedin") as string;
     const portfolio = formData.get("portfolio") as string;
-    const essay = formData.get("essay") as string; // Renamed from 'why'
+    const essay = formData.get("essay") as string;
     const resumeFile = formData.get("resume") as File;
 
-    if (!resumeFile) return NextResponse.json({ error: "No resume" }, { status: 400 });
-
-    // 2. Upload Resume (Same as before)
-    const filename = `${role}-${name.replace(/\s+/g, "_")}-resume.pdf`;
-    const blob = await put(filename, resumeFile, { access: "public" });
-
-    // 3. Google Sheets Logic
-    // ... auth logic same as before ...
-
-    // IMPORTANT: Update your Google Sheet Header Row manually or use code
-    // Columns: Date | Name | Email | Phone | Uni | Course | Year | Transport | Club | Role | LinkedIn | Portfolio | Essay | Resume | Status
-    
-    await sheet.addRow({
-      Date: new Date().toISOString(),
-      Name: name,
-      Email: email,
-      Phone: phone,
-      University: university,
-      Course: course,
-      Year: year,
-      Transport: transport,
-      Club: club || "N/A",
-      Role: role,
-      LinkedIn: linkedin,
-      Portfolio: portfolio,
-      Essay: essay,
-      "Resume URL": blob.url,
-      Status: "Pending Review"
+    // 1. Upload Resume to Vercel Blob
+    const resumeBlob = await put(resumeFile.name, resumeFile, {
+      access: "public",
     });
 
-    // 4. Send Email (Include new fields in the HTML)
+    // 2. Append to Google Sheets
+    const auth = new JWT({
+      email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
+
+    const sheets = google.sheets({ version: "v4", auth });
+    
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: "Sheet1!A:N",
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [[
+          new Date().toISOString(),
+          name,
+          email,
+          phone,
+          university,
+          course,
+          year,
+          transport,
+          club,
+          role,
+          linkedin,
+          portfolio,
+          essay,
+          resumeBlob.url,
+        ]],
+      },
+    });
+
+    // 3. Send Email Notification
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const emailHtml = `
+      <h2>New Application Received</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Role:</strong> ${role}</p>
+      <p><strong>University:</strong> ${university} (${course}, Year ${year})</p>
+      <p><strong>LinkedIn:</strong> <a href="${linkedin}">${linkedin}</a></p>
+      <p><strong>Resume:</strong> <a href="${resumeBlob.url}">View Resume</a></p>
+      <hr>
+      <p><strong>Essay:</strong></p>
+      <p>${essay}</p>
+    `;
+
     await transporter.sendMail({
-      from: `"Prism Lake System" <${process.env.EMAIL_USER}>`,
+      from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: `[APPLY] ${name} - ${role}`,
-      html: `
-        <h3>New Candidate: ${name}</h3>
-        <p><strong>Role:</strong> ${role}</p>
-        <p><strong>University:</strong> ${university} (${year})</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Transport:</strong> ${transport}</p>
-        <p><strong>Club:</strong> ${club}</p>
-        <hr />
-        <p><strong>Essay Response:</strong><br/>${essay.replace(/\n/g, '<br/>')}</p>
-        <hr />
-        <p><a href="${blob.url}">Download Resume PDF</a></p>
-        <p><a href="${linkedin}">LinkedIn Profile</a></p>
-      `,
+      subject: `New Application: ${name} - ${role}`,
+      html: emailHtml,
     });
 
     return NextResponse.json({ success: true });
 
   } catch (error) {
-    console.error("API Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Application submission error:", error);
+    return NextResponse.json(
+      { error: "Failed to submit application" },
+      { status: 500 }
+    );
   }
 }
