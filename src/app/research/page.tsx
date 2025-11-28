@@ -10,8 +10,8 @@ export default function ResearchPage() {
       <div className="mb-16">
         <h1 className="text-5xl font-bold mb-4">Prism <span className="text-[#1b17ff]">Intelligence</span>.</h1>
         <p className="text-gray-400 text-lg max-w-2xl">
-          Institutional-grade analysis on Market Structure, Volatility, and Algo-flows.
-          <br/>Written by the Founding Cohort.
+          Institutional-grade Market Analysis & Education, in Real Time.
+          <br/>Written by the Prism Lake Research Team.
         </p>
       </div>
 
