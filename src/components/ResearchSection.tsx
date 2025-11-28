@@ -29,7 +29,7 @@ export function ResearchSection() {
           </h2>
           
           <p className="mt-4 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
-            We don't sell signals. We publish <strong>Institutional Logic</strong>. <br />
+            We don&apos;t sell signals. We publish <strong>Institutional Logic</strong>. <br />
             Deep-dives on Market Microstructure, Volatility Flows, and Macro-Quant setups.
           </p>
         </div>

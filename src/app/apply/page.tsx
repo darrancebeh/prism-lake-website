@@ -23,7 +23,7 @@ export default function ApplyPage() {
         </h1>
         <p className="text-gray-400 max-w-xl mx-auto text-lg">
           You are applying to be a Founding Partner. <br/>
-          We don't care about your GPA. We care about your slope.
+          We don&apos;t care about your GPA. We care about your slope.
         </p>
       </FadeIn>
 

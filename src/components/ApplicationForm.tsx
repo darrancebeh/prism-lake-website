@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { UploadCloud, ArrowRight, Check, AlertCircle, FileText, Loader2 } from "lucide-react";
 import { useState } from "react";
 
@@ -250,7 +250,7 @@ export function ApplicationForm() {
 }
 
 // Helper UI Component for Label + Error
-function InputGroup({ label, children, error }: any) {
+function InputGroup({ label, children, error }: { label: string; children: React.ReactNode; error?: { message?: string } }) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">

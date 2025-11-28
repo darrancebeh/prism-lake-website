@@ -62,7 +62,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           prose-blockquote:border-l-[#1b17ff] prose-blockquote:bg-[#1b17ff]/5 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:not-italic prose-blockquote:rounded-r-lg
           ${post.meta.premium ? 'mask-gradient' : ''}`}
         >
-          {/* @ts-ignore */}
           <MDXRemote source={post.content} />
         </div>
 

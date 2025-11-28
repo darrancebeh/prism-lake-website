@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Home, ChevronRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();

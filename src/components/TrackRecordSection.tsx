@@ -33,7 +33,7 @@ export function TrackRecordSection() {
             LIVE SYSTEM PERFORMANCE
           </div>
           <h2 className="text-3xl font-bold font-sans mb-4">
-            We Don't Guess.<br/>We <span className="text-[#1b17ff]">Backtest.</span>
+            We Don&apos;t Guess.<br/>We <span className="text-[#1b17ff]">Backtest.</span>
           </h2>
           <p className="text-gray-400 mb-6 leading-relaxed">
             Our strategies are stress-tested against 10 years of historical data. 

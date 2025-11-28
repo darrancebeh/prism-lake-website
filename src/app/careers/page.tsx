@@ -175,7 +175,7 @@ export default function CareersPage() {
           Join the <span className="text-[#1b17ff]">Build.</span>
         </h1>
         <p className="text-xl text-gray-400 max-w-3xl font-light leading-relaxed">
-          We aren't looking for employees. We are recruiting <strong>Founding Partners</strong>. <br/>
+          We aren&apos;t looking for employees. We are recruiting <strong>Founding Partners</strong>. <br/>
           No salary (tentative, for now). Infinite upside in equity, experience, and status.
         </p>
       </FadeIn>
@@ -287,9 +287,9 @@ export default function CareersPage() {
       <FadeIn delay={0.6} className="mt-20">
         <div className="glass-panel p-12 rounded-3xl text-center relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#1b17ff] to-transparent" />
-          <h2 className="text-3xl font-bold mb-4">Don't fit a label?</h2>
+          <h2 className="text-3xl font-bold mb-4">Don&apos;t fit a label?</h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto">
-            We value hunger over resumes. If you are obsessed with markets but don't fit the boxes above, 
+            We value hunger over resumes. If you are obsessed with markets but don&apos;t fit the boxes above, 
             apply to the General Pool. We carve roles for the right people.
           </p>
           <Link 
