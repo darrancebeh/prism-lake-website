@@ -59,7 +59,7 @@ export function Navbar() {
           {segments.length === 0 && (
             <div className="hidden md:flex gap-6 text-xs font-mono text-gray-400 glass-panel px-4 py-3 rounded-lg">
               <Link href="/research" className="hover:text-[#1b17ff] transition-colors">INTELLIGENCE</Link>
-              <Link href="/careers" className="hover:text-[#1b17ff] transition-colors">PARTNERS</Link>
+              <Link href="/careers" className="hover:text-[#1b17ff] transition-colors">CAREER</Link>
             </div>
           )}
 
