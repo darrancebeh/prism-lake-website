@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { MarketTicker } from "@/components/MarketTicker";
 import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 // Font Configuration
 const inter = Inter({
@@ -36,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
       <body className="antialiased min-h-screen bg-[#020410] text-white selection:bg-[#1b17ff] selection:text-white">
-        
+        <ScrollProgress />
         {/* 1. Global Ticker (Fixed Top) */}
         <MarketTicker />
         
