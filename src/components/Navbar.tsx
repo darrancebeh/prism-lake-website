@@ -65,7 +65,7 @@ export function Navbar() {
 
           {/* Always show CTA */}
           <Link 
-            href="https://forms.gle/hLKy96cNe7e5atUDA" 
+            href="/careers" 
             target="_blank"
             className="flex items-center gap-2 text-xs font-bold bg-[#1b17ff] text-white px-4 py-3 rounded-lg hover:bg-[#1b17ff]/90 transition-all shadow-[0_0_15px_rgba(27,23,255,0.3)] pointer-events-auto"
           >

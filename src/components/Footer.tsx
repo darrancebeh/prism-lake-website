@@ -41,7 +41,6 @@ export function Footer() {
               <li><Link href="/" className="hover:text-[#1b17ff] transition-colors">Mission</Link></li>
               <li><Link href="/research" className="hover:text-[#1b17ff] transition-colors">Intelligence</Link></li>
               <li><Link href="/careers" className="hover:text-[#1b17ff] transition-colors">Careers</Link></li>
-              <li><Link href="https://forms.gle/hLKy96cNe7e5atUDA" target="_blank" className="hover:text-[#1b17ff] transition-colors">Apply</Link></li>
             </ul>
           </div>
 
