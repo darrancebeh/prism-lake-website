@@ -84,7 +84,7 @@ export default function Home() {
             <Card 
               icon={<TrendingUp className="w-6 h-6 text-[#1b17ff]" />}
               title="Research"
-              desc="We actively conduct and publish our research, sharing institutional-grade analysis and market theses to demonstrate our expertise and educate the ecosystem."
+              desc="We actively conduct and publish our research, sharing institutional-grade analysis and market research to demonstrate our expertise and educate the ecosystem."
             />
           </FadeIn>
         </div>
