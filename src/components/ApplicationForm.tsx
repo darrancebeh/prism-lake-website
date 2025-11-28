@@ -75,8 +75,8 @@ export function ApplicationForm() {
         </div>
         <h3 className="text-3xl font-bold text-white mb-4">Transmission Received.</h3>
         <p className="text-gray-400 text-lg leading-relaxed mb-8">
-          Your profile is now in our system. <br/>
-          If you match the Founding Cohort profile, expect a ping via WhatsApp or Email within 48 hours.
+          Thank you for your submission. Your profile is now in our system. <br/>
+          Our team will review your application, and will get back to you soon. Expect a ping via WhatsApp or Email within 48 hours. (We will not ghost you.)
         </p>
         <button onClick={() => window.location.href = '/'} className="px-8 py-3 bg-[#0a1128] border border-white/10 rounded-lg text-white hover:border-[#1b17ff] transition-all font-mono text-sm">
           RETURN TO BASE
