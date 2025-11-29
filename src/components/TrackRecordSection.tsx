@@ -92,9 +92,7 @@ export function TrackRecordSection() {
                 <h3 className="text-[#1b17ff] font-mono text-sm uppercase tracking-widest mb-2">Fiscal Year 2024</h3>
                 <h4 className="text-4xl font-bold text-white mb-6">Outperforming the Benchmark.</h4>
                 <p className="text-gray-400 leading-relaxed mb-8">
-                  While the S&P 500 relies on passive flows, Prism Lake captures alpha through 
-                  <span className="text-white font-medium"> Structural Inefficiencies</span>. 
-                  Our volatility-first approach allowed us to profit during Q3 drawdowns where traditional portfolios bled.
+                  Unlike passive benchmarks like the S&P500, Prism Lake generates returns through a carefully constructed and actively managed investment portfolio. We systematically allocate capital across US equities and options, employing discretionary quantitative models to drive strategy and capitalize on market movements.
                 </p>
                 
                 {/* Comparison Stats */}

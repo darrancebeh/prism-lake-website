@@ -41,7 +41,7 @@ export function IdentitySection() {
               We envision a self-sustaining institution where elite talent from 
               <span className="text-white font-medium"> Finance</span> and 
               <span className="text-white font-medium"> Technology</span> converge. 
-              Our goal is to build a localized firm operating with the sophistication of a global hedge fund—fusing deep fundamental research with quantitative expertise.
+              Our goal is to build a localized firm operating with the sophistication of a global hedge fund.
             </p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export function IdentitySection() {
                 Performance
               </div>
               <p className="text-xs text-gray-400 leading-relaxed pl-12 border-l border-white/5 ml-4">
-                To deploy proprietary capital into the capital markets using a hybrid approach combining high-conviction fundamental theses (Finance) with data-driven execution and risk management (Quant).
+                To generate superior, sustainable risk-adjusted returns by leveraging advanced quantitative research and technology to identify and capitalize on market inefficiencies.
               </p>
             </div>
 
@@ -72,7 +72,7 @@ export function IdentitySection() {
                 Transparency
               </div>
               <p className="text-xs text-gray-400 leading-relaxed pl-12 border-l border-white/5 ml-4">
-                To dismantle the opacity of traditional finance by publicly documenting our research, logic, and performance and establishing a new standard of trust and accountability in the ecosystem.
+                To build and maintain the trust of our stakeholders and partners by operating with radical transparency. Transparently documenting our research, logic, and performance to establish a new standard of trust and accountability in the ecosystem.
               </p>
             </div>
 
@@ -83,7 +83,7 @@ export function IdentitySection() {
                 Innovation
               </div>
               <p className="text-xs text-gray-400 leading-relaxed pl-12 border-l border-white/5 ml-4">
-                To cultivate a high-performance environment where talented analysts and researchers converge and drive groundbreaking innovation and superior results.
+                To continuously push the boundaries of quantitative finance and research by cultivating a high-performance environment where talented analysts and researchers converge and drive groundbreaking innovation.
               </p>
             </div>
           </div>
@@ -92,9 +92,10 @@ export function IdentitySection() {
         {/* 3. THE MISSION (Medium Card - Bottom Left) */}
         <div className="glass-panel p-8 rounded-3xl flex flex-col justify-center border-l-4 border-l-[#1b17ff]">
           <h3 className="text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-3">The Mission</h3>
-          <h4 className="text-xl font-bold text-white mb-2">Bridge Theory & Reality.</h4>
+          <h4 className="text-xl font-bold text-white mb-2">To Be at the Forefront of Quantitative Research and Market Intelligence Across Global Markets. Based In Malaysia.
+          </h4>
           <p className="text-gray-400 text-xs leading-relaxed">
-            To prove that a localized firm can execute at a global standard through the application of proprietary capital and radical transparency.
+            
           </p>
         </div>
 
@@ -106,9 +107,8 @@ export function IdentitySection() {
             <Award size={14} /> The Culture
           </h3>
           <h4 className="text-2xl font-bold text-white mb-2">Meritocracy & Adhocracy.</h4>
-          <p className="text-gray-400 text-xs leading-relaxed mt-2">
-            <strong>The best idea wins.</strong> Whether it comes from a 1st year analyst or the Founder. 
-            We operate with fluid structures to solve hard problems fast.
+          <p className="text-gray-400 text-sm leading-relaxed mt-2">
+            Impact is determined by the <strong>quality of thought,</strong> not seniority. We foster fluid, non-bureaucratic structures that empower exceptional talent to solve hard problems at speed.
           </p>
         </div>
 
