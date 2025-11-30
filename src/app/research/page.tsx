@@ -17,8 +17,8 @@ export default async function ResearchPage() {
       
       {/* Header */}
       <div className="mb-16 border-b border-[#1b17ff]/10 pb-8">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white tracking-tighter">
-          Prism <span className="text-[#1b17ff]">Intelligence</span>.
+        <h1 className="text-5xl md:text-6xl font-mono tracking-widest font-bold mb-6 text-white">
+          PRISM <span className="text-[#1b17ff]">INTELLIGENCE</span>.
         </h1>
         <p className="text-gray-400 text-lg max-w-2xl">
           Institutional-grade Market Analysis & Education, in Real Time. <br/>Brought to you by the Prism Lake Research Team.
