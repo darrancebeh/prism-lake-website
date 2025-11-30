@@ -1,10 +1,10 @@
 import { ImageResponse } from 'next/og';
 
 // Route segment config
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // Image metadata
-export const alt = 'Prism Lake Quantamental Research';
+export const alt = 'Prism Lake';
 export const size = {
   width: 1200,
   height: 630,
