@@ -1,18 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ThumbsUp, ThumbsDown, Flame, Share2, Loader2, Check } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Flame, Share2, Loader2, Check, Copy } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export function ReactionBar() {
   const pathname = usePathname();
-  // Fallback to "home" if pathname is empty, though in article pages it won't be
   const slug = pathname.split("/").pop() || "home";
 
   const [votes, setVotes] = useState({ up: 0, down: 0, fire: 0 });
   const [loading, setLoading] = useState(true);
   const [userVoted, setUserVoted] = useState<string | null>(null);
-  const [hasCopied, setHasCopied] = useState(false); // New state for copy feedback
+  const [hasCopied, setHasCopied] = useState(false);
 
   // 1. Load initial data
   useEffect(() => {
@@ -39,13 +38,16 @@ export function ReactionBar() {
     });
   };
 
-  // 3. Handle Intelligent Share
+  // 3. Handle Smart Share (Desktop = Copy, Mobile = Sheet)
   const handleShare = async () => {
     const url = window.location.href;
     const title = "Prism Lake Intelligence";
 
-    // Attempt Native Share (Mobile)
-    if (navigator.share) {
+    // Simple User Agent check for Mobile Devices
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    // A. Mobile Logic: Try Native Share first
+    if (isMobile && navigator.share) {
       try {
         await navigator.share({
           title: title,
@@ -54,11 +56,13 @@ export function ReactionBar() {
         });
         return; // Exit if successful
       } catch (err) {
-        console.log('Share cancelled or failed, falling back to clipboard');
+        // If user cancels share sheet, fall through to copy? 
+        // Usually better to just do nothing if they cancel.
+        return; 
       }
     }
 
-    // Fallback: Clipboard Copy (Desktop)
+    // B. Desktop Logic: Force Clipboard Copy
     try {
       await navigator.clipboard.writeText(url);
       setHasCopied(true);
@@ -96,17 +100,18 @@ export function ReactionBar() {
         {/* Intelligent Share Button */}
         <button 
           onClick={handleShare}
-          className="group flex items-center gap-2 text-gray-500 hover:text-white transition-colors min-w-[70px] justify-center"
+          className="group flex items-center gap-2 text-gray-500 hover:text-white transition-colors min-w-[80px] justify-center"
         >
           {hasCopied ? (
             <>
               <Check size={16} className="text-green-400" />
-              <span className="text-xs font-mono text-green-400 font-bold animate-fade-in">COPIED</span>
+              <span className="text-[10px] md:text-xs font-mono text-green-400 font-bold animate-fade-in">COPIED</span>
             </>
           ) : (
             <>
+              {/* Swapped Icon to Copy on Desktop hover for clarity, or just Share2 */}
               <Share2 size={16} className="group-hover:text-[#1b17ff] transition-colors" />
-              <span className="text-xs font-mono hidden md:inline group-hover:text-[#1b17ff] transition-colors">SHARE</span>
+              <span className="text-[10px] md:text-xs font-mono hidden md:inline group-hover:text-[#1b17ff] transition-colors">SHARE</span>
             </>
           )}
         </button>

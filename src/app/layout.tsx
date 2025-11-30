@@ -20,8 +20,42 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prism Lake",
+  // 1. Base URL: Critical for social images to resolve correctly
+  // Replace 'https://prism-lake.vercel.app' with your actual custom domain if you have one
+  metadataBase: new URL('https://prism-lake.vercel.app'), 
+
+  // 2. Title Template: Allows sub-pages to look like "Article Name | Prism Lake"
+  title: {
+    default: "Prism Lake",
+    template: "%s | Prism Lake", 
+  },
   description: "Malaysia's First US-Market Quantitative Research & Proprietary Trading Firm.",
+  keywords: ["Quantitative Finance", "Proprietary Trading", "US Equities", "Options", "Volatility", "Malaysia", "Algorithmic Trading"],
+  
+  // 3. Authorship
+  authors: [{ name: "Prism Lake" }],
+  creator: "Prism Lake",
+
+  // 4. Open Graph (Facebook, LinkedIn, Discord, iMessage)
+  openGraph: {
+    title: "Prism Lake",
+    description: "Malaysia's First US-Market Quantitative Research & Proprietary Trading Firm.",
+    url: 'https://prism-lake.com',
+    siteName: 'Prism Lake',
+    locale: 'en_US',
+    type: 'website',
+    // images: Next.js automatically finds opengraph-image.tsx
+  },
+
+  // 5. Twitter Card (X)
+  twitter: {
+    card: 'summary_large_image', // This makes the image big and bold
+    title: "Prism Lake",
+    description: "Bridging the gap between academic theory and market reality.",
+    // creator: '@prism_lake', // Add your handle if you have one
+  },
+
+  // 6. Icons
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",

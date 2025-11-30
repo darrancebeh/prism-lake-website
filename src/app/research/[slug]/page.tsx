@@ -3,6 +3,35 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { Lock } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection"; 
 import { ReactionBar } from "@/components/ReactionBar";
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: post.meta.title,
+    description: post.meta.description,
+    openGraph: {
+      title: post.meta.title,
+      description: post.meta.description,
+      type: 'article',
+      publishedTime: post.meta.date,
+      authors: [post.meta.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.meta.title,
+      description: post.meta.description,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   // FIX: Added 'await' here because getPosts() fetches from GitHub now
