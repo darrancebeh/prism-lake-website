@@ -1,9 +1,11 @@
 import { getPostBySlug, getPosts } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Lock } from "lucide-react"; // Removed unused imports (Home, ChevronRight)
+import { Lock } from "lucide-react";
 
 export async function generateStaticParams() {
-  const posts = getPosts();
+  // FIX: Added 'await' here because getPosts() fetches from GitHub now
+  const posts = await getPosts(); 
+  
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -11,16 +13,13 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug); // Added 'await' here too for safety
 
-  if (!post) return <div>Post not found</div>;
+  if (!post) return <div className="text-center py-20 text-gray-500">Post not found</div>;
 
   return (
-    // Increased top padding to pt-40 to account for the Global Navbar
     <article className="min-h-screen pt-40 pb-20 px-4">
       
-      {/* --- OLD LOCAL NAVBAR REMOVED HERE --- */}
-
       {/* 1. Header */}
       <header className="max-w-3xl mx-auto mb-12 text-center animate-fade-in-up">
         
