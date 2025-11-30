@@ -1,38 +1,39 @@
-// src/app/research/[slug]/page.tsx
-import { getPostBySlug, getPosts } from "@/lib/blog";
-import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { getPosts } from "@/lib/blog";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 
-export async function generateStaticParams() {
-  const posts = await getPosts(); // Add await here
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug); // Add await here too
-
-  if (!post) {
-    notFound();
-  }
+export default function ResearchPage() {
+  const posts = getPosts();
 
   return (
-    <article className="max-w-4xl mx-auto px-4 py-24">
-      <header className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.meta.title}</h1>
-        <div className="flex gap-4 text-sm text-gray-400">
-          <span>{post.meta.category}</span>
-          <span>•</span>
-          <span>{post.meta.date}</span>
-          <span>•</span>
-          <span>{post.meta.author}</span>
-        </div>
-      </header>
-
-      <div className="prose prose-invert prose-lg max-w-none">
-        <MDXRemote source={post.content} />
+    <div className="max-w-7xl mx-auto px-4 py-24">
+      <h1 className="text-4xl font-bold mb-8">Research Library</h1>
+      
+      <div className="grid gap-6">
+        {posts.map((post) => (
+          <Link 
+            key={post.slug} 
+            href={`/research/${post.slug}`}
+            className="glass-panel p-6 rounded-xl hover:border-[#1b17ff] transition-all group"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono text-[#1b17ff] uppercase">
+                {post.meta.category}
+              </span>
+              {post.meta.premium && <Lock size={14} className="text-gray-500" />}
+            </div>
+            <h2 className="text-2xl font-bold mb-2 group-hover:text-[#1b17ff] transition-colors">
+              {post.meta.title}
+            </h2>
+            <p className="text-gray-400 text-sm mb-4">{post.meta.description}</p>
+            <div className="flex gap-4 text-xs text-gray-500 font-mono">
+              <span>{post.meta.author}</span>
+              <span>•</span>
+              <span>{post.meta.date}</span>
+            </div>
+          </Link>
+        ))}
       </div>
-    </article>
+    </div>
   );
 }
