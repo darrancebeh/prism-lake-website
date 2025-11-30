@@ -1,9 +1,17 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 
-const contentDirectory = path.join(process.cwd(), "src/content/research");
+// --- CONFIGURATION ---
+const REPO_OWNER = process.env.GITHUB_REPO_OWNER;
+const REPO_NAME = process.env.GITHUB_REPO_NAME;
+const FOLDER_PATH = process.env.GITHUB_CONTENT_PATH || "content/research";
+const TOKEN = process.env.GITHUB_VAULT_TOKEN;
 
+// Validation Check
+if (!REPO_OWNER || !REPO_NAME || !TOKEN) {
+  throw new Error("❌ MISSING ENV VARIABLES: Please check .env.local for GitHub config.");
+}
+
+// Interfaces
 export interface Post {
   slug: string;
   meta: {
@@ -17,45 +25,85 @@ export interface Post {
   content: string;
 }
 
-export function getPosts() {
-  // Ensure directory exists
-  if (!fs.existsSync(contentDirectory)) {
+interface GitHubFile {
+  name: string;
+  path: string;
+  type: string;
+}
+
+// 1. Helper to fetch raw content from GitHub
+async function fetchGithubFile(path: string) {
+  // Ensure we don't double slash the URL if path starts with /
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${cleanPath}`;
+  
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`, // Use the constant
+      Accept: "application/vnd.github.v3.raw", // Request raw content
+    },
+    next: { revalidate: 60 }, // Cache for 60 seconds
+  });
+
+  if (!res.ok) throw new Error(`Failed to fetch ${cleanPath}: ${res.statusText}`);
+  return res.text();
+}
+
+// 2. Helper to list files in the directory
+async function fetchGithubFileList() {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
+  
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      Accept: "application/vnd.github.v3+json", // Request JSON list
+    },
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    console.warn(`⚠️ Could not list files in ${FOLDER_PATH}. Status: ${res.status}`);
     return [];
   }
 
-  const files = fs.readdirSync(contentDirectory);
-
-  const posts = files
-    // FILTER: Only process .mdx files (ignores .DS_Store)
-    .filter((filename) => filename.endsWith(".mdx"))
-    .map((filename) => {
-      const slug = filename.replace(".mdx", "");
-      const markdownWithMeta = fs.readFileSync(
-        path.join(contentDirectory, filename),
-        "utf-8"
-      );
-      const { data: meta } = matter(markdownWithMeta);
-
-      return {
-        slug,
-        meta,
-      } as Post;
-    });
-
-  // Sort by date (newest first)
-  return posts.sort((a, b) => (new Date(a.meta.date) > new Date(b.meta.date) ? -1 : 1));
+  const files: GitHubFile[] = await res.json();
+  return files.filter((f) => f.name.endsWith(".mdx") && f.type === "file");
 }
 
-export function getPostBySlug(slug: string) {
-  // Safety check
-  if (!slug || slug === "undefined") return null;
-
+// 3. Main function to get all posts
+export async function getPosts(): Promise<Post[]> {
   try {
-    const markdownWithMeta = fs.readFileSync(
-      path.join(contentDirectory, `${slug}.mdx`),
-      "utf-8"
+    const files = await fetchGithubFileList();
+    
+    // Fetch content in parallel
+    const posts = await Promise.all(
+      files.map(async (file) => {
+        // Use file.path directly as it contains the full path (e.g. content/research/post.mdx)
+        const rawContent = await fetchGithubFile(file.path);
+        const { data: meta } = matter(rawContent);
+        
+        return {
+          slug: file.name.replace(".mdx", ""),
+          meta,
+        } as Post;
+      })
     );
-    const { data: meta, content } = matter(markdownWithMeta);
+
+    // Sort by Date (Newest First)
+    return posts.sort((a, b) => (new Date(a.meta.date) > new Date(b.meta.date) ? -1 : 1));
+  } catch (error) {
+    console.error("Vault Access Failed:", error);
+    return [];
+  }
+}
+
+// 4. Get Single Post
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  try {
+    // Construct the specific file path
+    const filePath = `${FOLDER_PATH}/${slug}.mdx`;
+    const rawContent = await fetchGithubFile(filePath);
+    const { data: meta, content } = matter(rawContent);
 
     return {
       slug,
@@ -63,12 +111,7 @@ export function getPostBySlug(slug: string) {
       content,
     } as Post;
   } catch (error) {
-    console.error(`Error reading post: ${slug}`, error);
-    // Return a dummy error post so the app doesn't crash completely
-    return {
-      slug,
-      meta: { title: "Post Not Found", date: "", description: "", category: "Error", author: "System" },
-      content: "The requested article could not be found.",
-    } as Post;
+    console.error(`Post not found: ${slug}`, error);
+    return null;
   }
 }
