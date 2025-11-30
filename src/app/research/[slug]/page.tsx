@@ -1,3 +1,4 @@
+import Image from "next/image"; // NEW IMPORT
 import { getPostBySlug, getPosts } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Lock } from "lucide-react";
@@ -35,9 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export async function generateStaticParams() {
-  // FIX: Added 'await' here because getPosts() fetches from GitHub now
   const posts = await getPosts(); 
-  
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -45,7 +44,7 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug); // Added 'await' here too for safety
+  const post = await getPostBySlug(slug);
 
   if (!post) return <div className="text-center py-20 text-gray-500">Post not found</div>;
 
@@ -69,14 +68,28 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           {post.meta.title}
         </h1>
 
-        {/* Author Block */}
+        {/* UPDATED: Author Block */}
         <div className="flex items-center justify-center gap-4 border-y border-white/5 py-8">
-           <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1b17ff] to-cyan-500 p-[1px]">
-             <div className="w-full h-full rounded-full bg-[#020410]" />
+           
+           {/* Avatar with Gradient Ring */}
+           <div className="relative w-14 h-14 rounded-full p-[1px] bg-gradient-to-tr from-[#1b17ff] to-cyan-500">
+             <div className="relative w-full h-full rounded-full overflow-hidden bg-[#020410]">
+                {/* Using the real image instead of a div */}
+                <Image 
+                  src="/images/darrancebeh2.jpg" 
+                  alt={post.meta.author}
+                  fill
+                  className="object-cover"
+                />
+             </div>
            </div>
+
+           {/* Name & Title */}
            <div className="text-left">
              <p className="text-sm font-bold text-white tracking-wide">{post.meta.author}</p>
-             <p className="text-xs text-gray-500 font-mono uppercase">Founding Partner</p>
+             <p className="text-[10px] md:text-xs text-xs text-gray-500 font-mono uppercase tracking-widest font-medium">
+               Founding Partner
+             </p>
            </div>
         </div>
       </header>
@@ -115,13 +128,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         )}
       </div>
 
-      {/* --- NEW: AUTHOR FOOTER --- */}
+      {/* --- AUTHOR FOOTER --- */}
       <div className="max-w-3xl mx-auto animate-fade-in delay-100 mb-16">
         <ArticleFooter author={post.meta.author} />
       </div>
 
-      {/* --- NEW ENGAGEMENT SECTION --- */}
-      {/* Only show comments if NOT premium, or if you want to tease engagement */}
+      {/* --- ENGAGEMENT SECTION --- */}
       {!post.meta.premium && (
         <div className="animate-fade-in-up delay-200">
           <ReactionBar />
