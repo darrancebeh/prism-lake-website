@@ -1,8 +1,8 @@
 import { getPostBySlug, getPosts } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Lock } from "lucide-react";
-import CommentSection from "@/components/CommentSection";
-import ReactionBar from "@/components/ReactionBar";
+import { CommentSection } from "@/components/CommentSection"; 
+import { ReactionBar } from "@/components/ReactionBar";
 
 export async function generateStaticParams() {
   // FIX: Added 'await' here because getPosts() fetches from GitHub now
@@ -84,7 +84,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </div>
         )}
       </div>
-      
+
       {/* --- NEW ENGAGEMENT SECTION --- */}
       {/* Only show comments if NOT premium, or if you want to tease engagement */}
       {!post.meta.premium && (
