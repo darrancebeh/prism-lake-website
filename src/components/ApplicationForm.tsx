@@ -325,10 +325,23 @@ function InputGroup({
   error?: { message?: string } 
 }) {
   return (
-    <div className="space-y-2">
-      <div className="flex justify-between">
-        <label className="text-xs font-mono text-[#1b17ff] uppercase tracking-wider">{label}</label>
-        {error && <span className="text-red-500 text-xs flex items-center gap-1 font-mono"><AlertCircle size={10} /> {error.message}</span>}
+    <div className="space-y-2 group transition-all duration-300 p-3 -mx-3 rounded-lg hover:bg-white/5 focus-within:bg-[#1b17ff]/5 focus-within:ring-1 focus-within:ring-[#1b17ff]/20">
+      <div className="flex justify-between items-center">
+        <label className="text-xs font-mono text-gray-500 group-hover:text-gray-300 group-focus-within:text-[#1b17ff] uppercase tracking-widest transition-colors flex items-center gap-2">
+          {/* Decorative Dot that lights up */}
+          <span className="w-1.5 h-1.5 rounded-full bg-gray-700 group-hover:bg-gray-500 group-focus-within:bg-[#1b17ff] group-focus-within:shadow-[0_0_8px_#1b17ff] transition-all" />
+          {label}
+        </label>
+        
+        {error && (
+          <motion.span 
+            initial={{ opacity: 0, x: -10 }} 
+            animate={{ opacity: 1, x: 0 }}
+            className="text-red-500 text-[10px] font-mono flex items-center gap-1 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"
+          >
+            <AlertCircle size={10} /> {error.message}
+          </motion.span>
+        )}
       </div>
       {children}
     </div>
