@@ -8,7 +8,7 @@ export function TrackRecordSection() {
     <section className="py-24 bg-[#050a1f] border-y border-[#1b17ff]/10 relative overflow-hidden" id="track-record">
       
       {/* Background Decor */}
-      <div className="absolute left-0 top-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none" />
+      <div className="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none bg-grid-pattern" />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
@@ -141,7 +141,7 @@ export function TrackRecordSection() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-white/5 text-[10px] text-gray-500 text-center">
-                  *Alpha generated via Volatility Arbitrage & Short Gamma strategies.
+                  *Performance generated via active discretionary and quantitative strategies.
                 </div>
               </div>
 
