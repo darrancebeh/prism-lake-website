@@ -4,53 +4,76 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
+  const userId = searchParams.get("userId"); // We pass this from frontend
 
   if (!slug) return NextResponse.json({ error: "Slug required" }, { status: 400 });
 
-  try {
-    // Attempt to get the row
-    const result = await sql`SELECT * FROM reactions WHERE slug = ${slug}`;
-    
-    // If no row exists yet for this article, return zeros (Frontend handles the init)
-    if (result.rowCount === 0) {
-      return NextResponse.json({ up: 0, down: 0, fire: 0 });
-    }
+  // 1. Get Totals
+  const totalsResult = await sql`
+    SELECT type, COUNT(*) as count 
+    FROM user_votes 
+    WHERE slug = ${slug} 
+    GROUP BY type;
+  `;
 
-    return NextResponse.json(result.rows[0]);
-  } catch (error) {
-    return NextResponse.json({ error: "DB Error" }, { status: 500 });
+  // 2. Get User's current state (if userId provided)
+  let userVotes: string[] = [];
+  if (userId) {
+    const userResult = await sql`
+      SELECT type FROM user_votes WHERE slug = ${slug} AND user_id = ${userId}
+    `;
+    userVotes = userResult.rows.map(row => row.type);
   }
+
+  // Format data
+  const votes = { up: 0, down: 0, fire: 0 };
+  totalsResult.rows.forEach(row => {
+    // @ts-expect-error SQL count comes as string
+    votes[row.type] = parseInt(row.count);
+  });
+
+  return NextResponse.json({ ...votes, userState: userVotes });
 }
 
 export async function POST(req: NextRequest) {
-  const { slug, type } = await req.json();
+  const { slug, type, userId } = await req.json();
 
-  if (!slug || !['up', 'down', 'fire'].includes(type)) {
-    return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+  if (!slug || !type || !userId) {
+    return NextResponse.json({ error: "Missing data" }, { status: 400 });
   }
 
-  // UPSERT Logic: Insert if new, Update if exists.
-  // This ensures we don't crash on the first ever vote.
-  if (type === 'up') {
-    await sql`
-      INSERT INTO reactions (slug, up, down, fire) VALUES (${slug}, 1, 0, 0)
-      ON CONFLICT (slug) DO UPDATE SET up = reactions.up + 1;
-    `;
+  // LOGIC:
+  // 1. Fire is independent (Toggle ON/OFF)
+  // 2. Up/Down are mutually exclusive (Toggle ON/OFF, but switch if other exists)
+
+  if (type === 'fire') {
+    // Check if exists
+    const exists = await sql`SELECT * FROM user_votes WHERE slug=${slug} AND user_id=${userId} AND type='fire'`;
+    
+    if (exists.rowCount > 0) {
+      // Toggle OFF
+      await sql`DELETE FROM user_votes WHERE slug=${slug} AND user_id=${userId} AND type='fire'`;
+    } else {
+      // Toggle ON
+      await sql`INSERT INTO user_votes (slug, user_id, type) VALUES (${slug}, ${userId}, 'fire')`;
+    }
   } 
-  else if (type === 'down') {
-    await sql`
-      INSERT INTO reactions (slug, up, down, fire) VALUES (${slug}, 0, 1, 0)
-      ON CONFLICT (slug) DO UPDATE SET down = reactions.down + 1;
-    `;
-  } 
-  else if (type === 'fire') {
-    await sql`
-      INSERT INTO reactions (slug, up, down, fire) VALUES (${slug}, 0, 0, 1)
-      ON CONFLICT (slug) DO UPDATE SET fire = reactions.fire + 1;
-    `;
+  else if (type === 'up' || type === 'down') {
+    const opposite = type === 'up' ? 'down' : 'up';
+    
+    // Check if same type exists (Toggle OFF)
+    const sameExists = await sql`SELECT * FROM user_votes WHERE slug=${slug} AND user_id=${userId} AND type=${type}`;
+    
+    if (sameExists.rowCount > 0) {
+      await sql`DELETE FROM user_votes WHERE slug=${slug} AND user_id=${userId} AND type=${type}`;
+    } else {
+      // Remove opposite if exists (Switch)
+      await sql`DELETE FROM user_votes WHERE slug=${slug} AND user_id=${userId} AND type=${opposite}`;
+      // Insert new
+      await sql`INSERT INTO user_votes (slug, user_id, type) VALUES (${slug}, ${userId}, ${type})`;
+    }
   }
 
-  // Return new state
-  const result = await sql`SELECT * FROM reactions WHERE slug = ${slug}`;
-  return NextResponse.json(result.rows[0]);
+  // Return new totals to update UI immediately
+  return GET(new NextRequest(`http://localhost/api/reactions?slug=${slug}&userId=${userId}`));
 }
