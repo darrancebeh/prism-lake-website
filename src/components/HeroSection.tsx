@@ -21,7 +21,7 @@ export function HeroSection() {
 
       {/* C. The "Vignette" (Fade edges) */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#020410_100%)] pointer-events-none z-0" />
-      
+
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[#1b17ff] opacity-15 blur-[100px] md:blur-[150px] rounded-full pointer-events-none" />
 
@@ -45,7 +45,7 @@ export function HeroSection() {
         {/* Sub-headline */}
         <p className="text-sm md:text-xl text-gray-400 text-center max-w-2xl mb-10 leading-relaxed font-light px-4">
           Prism Lake is a student-founded, and Malaysia&apos;s first <span className="text-white font-medium">Quantitative Research & Proprietary Trading Firm</span>.
-          We deploy our proprietary capital into US Equities & Derivatives using institutional-grade research.
+          We deploy our proprietary capital into US Equities & Derivatives using institutional-grade and proprietary research.
         </p>
 
         {/* CTA Buttons */}
