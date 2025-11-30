@@ -1,15 +1,18 @@
 import matter from "gray-matter";
 
+// At the top of blog.ts
+console.log("ENV CHECK:", {
+  owner: process.env.GITHUB_REPO_OWNER,
+  repo: process.env.GITHUB_REPO_NAME,
+  path: process.env.GITHUB_CONTENT_PATH,
+  hasToken: !!process.env.GITHUB_VAULT_TOKEN,
+});
+
 // --- CONFIGURATION ---
 const REPO_OWNER = process.env.GITHUB_REPO_OWNER;
 const REPO_NAME = process.env.GITHUB_REPO_NAME;
 const FOLDER_PATH = process.env.GITHUB_CONTENT_PATH || "content/research";
 const TOKEN = process.env.GITHUB_VAULT_TOKEN;
-
-// Validation Check
-if (!REPO_OWNER || !REPO_NAME || !TOKEN) {
-  throw new Error("❌ MISSING ENV VARIABLES: Please check .env.local for GitHub config.");
-}
 
 // Interfaces
 export interface Post {

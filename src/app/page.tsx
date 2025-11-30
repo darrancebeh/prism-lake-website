@@ -1,9 +1,7 @@
-"use client";
-import { useState } from "react";
+// REMOVED "use client" - This is now a Server Component
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Cpu, ShieldCheck, TrendingUp, Link2, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Cpu, ShieldCheck, TrendingUp, Link2, Terminal, Mic2, Users } from "lucide-react";
 
 // Components
 import { FadeIn } from "@/components/FadeIn";
@@ -12,12 +10,13 @@ import { IdentitySection } from "@/components/IdentitySection";
 import { TrackRecordSection } from "@/components/TrackRecordSection";
 import { ResearchSection } from "@/components/ResearchSection";
 import { SpotlightCard } from "@/components/SpotlightCard";
+import { MobileFeatureAccordion } from "@/components/MobileFeatureAccordion"; // Import the new component
 
 export default function Home() {
   return (
     <div className="overflow-hidden">
       
-{/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION --- */}
       <section className="relative flex flex-col items-center justify-center min-h-[90vh] px-4 pt-20 pb-20 md:pt-10">
         
         {/* Background Ambient Glow */}
@@ -95,47 +94,30 @@ export default function Home() {
         </div>
 
         {/* 2. MOBILE: Interactive Accordion Stack (Hidden on Desktop) */}
-        <div className="md:hidden mt-16 w-full max-w-lg z-10 flex flex-col gap-3 px-2">
+        <div className="md:hidden mt-16 w-full max-w-lg z-10 px-2">
+          {/* Using the extracted client component */}
           <MobileFeatureAccordion />
         </div>
 
       </section>
 
       {/* --- SECTIONS STACK --- */}
+      <FadeIn><PartnersSection /></FadeIn>
+      <FadeIn><IdentitySection /></FadeIn>
+      <FadeIn id="track-record"><TrackRecordSection /></FadeIn>
+      <FadeIn><FounderSection /></FadeIn>
       
-      {/* 1. Partners / Infrastructure */}
-      <FadeIn>
-        <PartnersSection />
-      </FadeIn>
-
-      {/* 2. Identity (Vision/Mission) */}
-      <FadeIn>
-        <IdentitySection />
-      </FadeIn>
-
-      {/* 3. Track Record */}
-      <FadeIn id="track-record">
-        <TrackRecordSection />
-      </FadeIn>
-
-      {/* 4. Founder Dossier */}
-      <FadeIn>
-        <FounderSection />
-      </FadeIn>
-
-      {/* 5. Research Feed */}
-      <FadeIn>
-        <ResearchSection />
-      </FadeIn>
+      {/* This async component will now work because page.tsx is a Server Component */}
+      <FadeIn><ResearchSection /></FadeIn>
       
       {/* 6. Final CTA Footer */}
-      <section className="py-32 text-center relative z-10">
+      <section className="py-20 md:py-32 text-center relative z-10 px-4">
         <FadeIn>
-          <h2 className="text-4xl font-bold mb-6 text-white">Ready to build the future?</h2>
-          <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to build the future?</h2>
+          <p className="text-gray-400 mb-8 max-w-xl mx-auto text-sm md:text-base">
             We are looking for the obsessive few. If you dream in Python and Volatility, we have a desk for you.
           </p>
-          <Link href="/careers" className="inline-flex px-10 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold tracking-wide">
+          <Link href="/careers" className="inline-flex px-10 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold tracking-wide text-sm md:text-base">
              VIEW OPEN ROLES
           </Link>
         </FadeIn>
@@ -145,91 +127,12 @@ export default function Home() {
   );
 }
 
-// --- MOBILE COMPONENT: FEATURE ACCORDION ---
-function MobileFeatureAccordion() {
-  // Default to 0 (Quantitative) being open so the UI isn't empty
-  const [activeIdx, setActiveIdx] = useState<number | null>(0);
-
-  const features = [
-    {
-      icon: <Cpu size={18} />,
-      title: "Quantitative",
-      desc: "We combine traditional market analysis with statistical expertise and algorithmic execution."
-    },
-    {
-      icon: <ShieldCheck size={18} />,
-      title: "Proprietary",
-      desc: "We deploy proprietary, principal capital to capture market opportunities. We do not manage external client funds."
-    },
-    {
-      icon: <TrendingUp size={18} />,
-      title: "Research",
-      desc: "We actively conduct and publish our research, sharing institutional-grade analysis and market research."
-    }
-  ];
-
-  return (
-    <div className="flex flex-col gap-3">
-      {features.map((item, idx) => {
-        const isActive = activeIdx === idx;
-        return (
-          <div 
-            key={idx}
-            onClick={() => setActiveIdx(isActive ? null : idx)}
-            className={`
-              relative overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer
-              ${isActive 
-                ? 'bg-[#1b17ff]/10 border-[#1b17ff] shadow-[0_0_20px_rgba(27,23,255,0.15)]' 
-                : 'bg-[#0a1128]/60 border-white/5 hover:border-white/10'
-              }
-            `}
-          >
-            {/* Header Row */}
-            <div className="flex items-center justify-between p-4">
-              <div className="flex items-center gap-4">
-                <div className={`
-                  p-2 rounded-lg transition-colors
-                  ${isActive ? 'bg-[#1b17ff] text-white' : 'bg-[#1b17ff]/10 text-[#1b17ff]'}
-                `}>
-                  {item.icon}
-                </div>
-                <span className={`font-bold text-lg tracking-tight ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                  {item.title}
-                </span>
-              </div>
-              
-              {/* Animated Plus/Minus Icon */}
-              <div className={`transition-transform duration-300 ${isActive ? 'rotate-180 text-[#1b17ff]' : 'text-gray-600'}`}>
-                {isActive ? <ChevronDown size={20} /> : <ArrowRight size={18} />}
-              </div>
-            </div>
-
-            {/* Expandable Content */}
-            <AnimatePresence>
-              {isActive && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  <div className="px-4 pb-5 pl-[4.5rem] text-sm text-gray-300 font-light leading-relaxed border-t border-[#1b17ff]/10 pt-3 mt-1">
-                    {item.desc}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
+// ... Keep FounderSection and Card helper functions below as they are ...
+// (Paste the FounderSection code from previous responses here)
 // --- HELPER COMPONENT: FOUNDER SECTION ---
 function FounderSection() {
   return (
-    <section className="py-24 px-4 max-w-5xl mx-auto">
+    <section className="py-20 md:py-24 px-4 max-w-5xl mx-auto">
       
       {/* Section Label */}
       <div className="flex items-center gap-4 mb-8 opacity-80">
@@ -238,12 +141,12 @@ function FounderSection() {
         <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#1b17ff]/50" />
       </div>
 
-      <SpotlightCard className="p-8 md:p-10 overflow-hidden bg-[#0a1128]/40 border-[#1b17ff]/20">
+      <SpotlightCard className="p-6 md:p-10 overflow-hidden bg-[#0a1128]/40 border-[#1b17ff]/20">
         
-        {/* TOP ROW: Identity & Bio */}
+        {/* --- LAYER 1: IDENTITY (Top) --- */}
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start mb-10">
           
-          {/* IMAGE COLUMN (Fixed Width) */}
+          {/* IMAGE COLUMN */}
           <div className="shrink-0 relative group mx-auto md:mx-0">
             <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border-2 border-[#1b17ff]/30 relative z-10 bg-[#020410] shadow-[0_0_30px_rgba(27,23,255,0.15)] group-hover:border-[#1b17ff] transition-all duration-500">
                <Image 
@@ -265,69 +168,114 @@ function FounderSection() {
             </div>
           </div>
 
-          {/* TEXT COLUMN (Fills remaining space) */}
+          {/* BIO TEXT COLUMN */}
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-4xl font-bold text-white tracking-tight mb-2">Darrance Beh Heng Shek</h2>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
-              <span className="text-[#1b17ff] font-mono text-xs uppercase tracking-widest border-r border-white/10 pr-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Darrance Beh Heng Shek</h2>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 mb-6">
+              <span className="text-[#1b17ff] font-mono text-[10px] md:text-xs uppercase tracking-widest border-r border-white/10 pr-3">
                 Founder & Chief Researcher
               </span>
-              <span className="text-xs font-mono text-gray-500">Age: 20</span>
-              <span className="text-xs font-mono text-gray-500">•</span>
-              <span className="text-xs font-mono text-gray-500">BSc (Hons) in Computer Science</span>
+              <span className="text-[10px] md:text-xs font-mono text-gray-500">Age: 20</span>
+              <span className="text-[10px] md:text-xs font-mono text-gray-500">•</span>
+              <span className="text-[10px] md:text-xs font-mono text-gray-500">BSc (Hons) Computer Science</span>
             </div>
             
             <p className="text-gray-300 leading-relaxed font-light text-sm md:text-base mb-6">
-              A first-class Computer Science undergrad and active discretionary and quantitative investor-trader navigating the markets since 15 in 2020.
-              He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, and leverages on a background in <span className="text-white font-medium">Competitive Programming</span> and 
-              <span className="text-white font-medium"> State-Level Debating</span> to exploit market psychology.
+              A first-class Computer Science undergrad and active discretionary & quantitative investor-trader navigating the markets since 15 (2020).
+              He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, leveraging a background in Competitive Programming to exploit market psychology.
             </p>
 
-            {/* Socials / Secondary Stats */}
-            <div className="flex items-center justify-center md:justify-start gap-4">
-              <a href="https://linkedin.com/in/darrancebeh" target="_blank" className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-[#1b17ff] transition-colors">
-                <Link2 size={14}/> LINKEDIN
-              </a>
-              <div className="h-4 w-[1px] bg-white/10" />
-              <div className="text-xs text-gray-500 font-mono">
-                Founder of 2 Fastest-Growing MY/SG Discord Servers
-              </div>
-            </div>
+            <a href="https://linkedin.com/in/darrancebeh" target="_blank" className="inline-flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-[#1b17ff] transition-colors border-b border-white/10 pb-0.5 hover:border-[#1b17ff]">
+              <Link2 size={14}/> CONNECT ON LINKEDIN
+            </a>
           </div>
         </div>
 
-        {/* BOTTOM ROW: The "Alpha" Box (Full Width) */}
-        <div className="relative rounded-xl bg-gradient-to-r from-[#1b17ff]/10 to-[#0a1128] border border-[#1b17ff]/30 p-6 md:p-8 overflow-hidden group">
+        {/* --- LAYER 2: THE COMPETENCE TRIFECTA (Middle) --- */}
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mb-4">
+          
+          {/* Card A: TECHNICAL */}
+          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
+            <div className="flex items-start justify-between mb-3">
+              <div className="p-2 bg-cyan-500/10 text-cyan-500 rounded-lg border border-cyan-500/20">
+                <Terminal size={18} />
+              </div>
+              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Engineering</div>
+            </div>
+            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-cyan-500 transition-colors">
+              Self-Taught Programmer
+            </h4>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              Former competitive programmer (2019). Algorithms aren't just theory; they are weapons.
+            </p>
+          </div>
+
+          {/* Card B: SOFT POWER */}
+          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
+            <div className="flex items-start justify-between mb-3">
+              <div className="p-2 bg-purple-500/10 text-purple-500 rounded-lg border border-purple-500/20">
+                <Mic2 size={18} />
+              </div>
+              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Communication</div>
+            </div>
+            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-purple-500 transition-colors">
+              State-Level Debater
+            </h4>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              CHKL Alumni. Serial Host & Moderator. I don't just find alpha; I articulate it.
+            </p>
+          </div>
+
+          {/* Card C: COMMUNITY */}
+          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
+            <div className="flex items-start justify-between mb-3">
+              <div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg border border-amber-500/20">
+                <Users size={18} />
+              </div>
+              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Builders</div>
+            </div>
+            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-amber-500 transition-colors">
+              Ecosystem Founder
+            </h4>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              Founded <strong>VALORANT Malaysia</strong> (Acquired by Official) & <strong>The Coffee Shop</strong> (Fastest growing MY/SG Discord).
+            </p>
+          </div>
+
+        </div>
+
+        {/* --- LAYER 3: THE "ALPHA" ANCHOR (Bottom) --- */}
+        <div className="relative rounded-xl bg-gradient-to-r from-[#1b17ff]/10 to-[#0a1128] border border-[#1b17ff]/30 p-6 md:p-8 overflow-hidden group mt-4">
           
           {/* Background Highlight */}
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
             <TrendingUp size={100} className="text-[#1b17ff]" />
           </div>
 
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             
             {/* The Numbers */}
-            <div className="flex flex-col items-center md:items-start gap-2">
+            <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
               <div className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-1">
                 <ShieldCheck size={14} /> 
                 Performance Audit (2020 - 2025)
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 md:gap-4">
                 <span className="text-3xl md:text-4xl font-bold text-white/60">RM 600</span>
                 <ArrowRight size={24} className="text-[#1b17ff] animate-pulse" />
                 <span className="text-4xl md:text-5xl font-bold text-white">6-Figures</span>
               </div>
               <div className="mt-2 inline-flex items-center gap-2 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-[10px] text-green-400 font-mono">
-                <TrendingUp size={10} /> 59.8% CAGR (5 Years, RM400 AVG Monthly DCA)
+                <TrendingUp size={10} /> 59.8% CAGR (5Y, RM400 Avg Monthly DCA)
               </div>
             </div>
 
             {/* The Context */}
             <div className="text-center md:text-right max-w-sm">
-              <p className="text-sm text-gray-300 font-light leading-relaxed">
-                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities since 2020.
+              <p className="text-xs md:text-sm text-gray-300 font-light leading-relaxed">
+                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities.
               </p>
-              <div className="mt-3 text-xs text-gray-500 font-mono border-t border-white/5 pt-3 inline-block">
+              <div className="mt-3 text-[10px] md:text-xs text-gray-500 font-mono border-t border-white/5 pt-3 inline-block">
                 Currently self-funding Sunway University tuition (~RM60k) purely through portfolio.
               </div>
             </div>
