@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, X, Home, Terminal, Cpu, Users } from "lucide-react";
+import { ArrowUpRight, Menu, X, Home, Terminal, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
@@ -13,10 +13,10 @@ export function Navbar() {
   // 1. Split path for breadcrumbs
   const segments = pathname.split("/").filter((item) => item !== "");
 
-  // Close menu when route changes
-  useEffect(() => {
+  // Close menu when clicking a link (handled by Link component navigation)
+  const handleLinkClick = () => {
     setIsOpen(false);
-  }, [pathname]);
+  };
 
   return (
     <>
@@ -30,6 +30,7 @@ export function Navbar() {
             <Link 
               href="/" 
               className={`flex items-center gap-2 hover:text-white transition-colors shrink-0 ${segments.length === 0 ? "text-white font-bold" : ""}`}
+              onClick={handleLinkClick}
             >
               <div className={`w-2 h-2 rounded-sm ${segments.length === 0 ? "bg-[#1b17ff] shadow-[0_0_8px_#1b17ff]" : "bg-gray-600"}`} />
               <span className="hidden sm:inline">PRISM LAKE</span>
@@ -52,7 +53,7 @@ export function Navbar() {
                     </span>
                   ) : (
                     // Intermediate Pages (Hidden on Mobile to save space)
-                    <Link href={path} className="hover:text-white transition-colors uppercase shrink-0 hidden sm:block">
+                    <Link href={path} className="hover:text-white transition-colors uppercase shrink-0 hidden sm:block" onClick={handleLinkClick}>
                       {segment}
                     </Link>
                   )}
@@ -112,12 +113,13 @@ export function Navbar() {
 
               {/* Links Grid */}
               <div className="p-2 grid gap-1">
-                <MobileMenuItem href="/" icon={<Home size={16} />} label="Mission Control" sub="Home" />
+                <MobileMenuItem href="/" icon={<Home size={16} />} label="Mission Control" sub="Home" onClick={handleLinkClick} />
 
                 {/* Custom item so we can apply font-mono only to the label */}
                 <Link
                   href="/research"
                   className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 active:bg-[#1b17ff]/10 transition-colors group"
+                  onClick={handleLinkClick}
                 >
                   <div className="p-2.5 rounded-lg bg-white/5 text-gray-400 group-hover:text-[#1b17ff] group-hover:bg-[#1b17ff]/10 transition-colors">
                     <Terminal size={16} />
@@ -135,7 +137,7 @@ export function Navbar() {
                   </div>
                 </Link>
 
-                <MobileMenuItem href="/careers" icon={<Users size={16} />} label="Careers" sub="Open Roles" />
+                <MobileMenuItem href="/careers" icon={<Users size={16} />} label="Careers" sub="Open Roles" onClick={handleLinkClick} />
               </div>
 
               {/* Mobile CTA */}
@@ -143,6 +145,7 @@ export function Navbar() {
                 <Link 
                   href="/apply"
                   className="flex w-full items-center justify-center gap-2 text-sm font-bold bg-[#1b17ff] text-white py-3.5 rounded-xl hover:bg-[#1b17ff]/90 transition-all shadow-lg shadow-[#1b17ff]/20"
+                  onClick={handleLinkClick}
                 >
                   JOIN COHORT {"{"}ZERO{"}"} <ArrowUpRight size={16} />
                 </Link>
@@ -157,11 +160,12 @@ export function Navbar() {
 }
 
 // --- SUB-COMPONENT: MOBILE MENU ITEM ---
-function MobileMenuItem({ href, icon, label, sub }: { href: string, icon: React.ReactNode, label: string, sub: string }) {
+function MobileMenuItem({ href, icon, label, sub, onClick }: { href: string, icon: React.ReactNode, label: string, sub: string, onClick?: () => void }) {
   return (
     <Link 
       href={href} 
       className="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 active:bg-[#1b17ff]/10 transition-colors group"
+      onClick={onClick}
     >
       <div className="p-2.5 rounded-lg bg-white/5 text-gray-400 group-hover:text-[#1b17ff] group-hover:bg-[#1b17ff]/10 transition-colors">
         {icon}

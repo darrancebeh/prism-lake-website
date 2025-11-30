@@ -13,13 +13,17 @@ import {
   Users, 
   ChevronDown, 
   Terminal,
-  Globe
+  Globe,
+  Zap,
+  Target,
+  Rocket
 } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 
 // --- DATA: THE ROLES ---
+// (Keep your roles array exactly as it was, no changes needed to data)
 const roles = [
-  // ALPHA DIVISION
+  // ... (Your existing roles array) ...
   {
     id: "quant-researcher",
     title: "Quantitative Researcher",
@@ -86,8 +90,6 @@ const roles = [
       ]
     }
   },
-  
-  // OPERATIONS DIVISION
   {
     id: "strat-ops",
     title: "Strategy & Operations Lead",
@@ -164,7 +166,7 @@ export default function CareersPage() {
   };
 
   return (
-    <div className="min-h-screen pt-40 pb-20 px-4 max-w-5xl mx-auto">
+    <div className="min-h-screen pt-40 pb-20 px-4 max-w-6xl mx-auto">
       
       {/* HEADER */}
       <FadeIn className="mb-20 text-center md:text-left">
@@ -182,21 +184,30 @@ export default function CareersPage() {
 
       {/* ROLES LIST */}
       <div className="space-y-6">
+        <h3 className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-8 ml-2">
+          Open Positions (Cohort Zero)
+        </h3>
+        
         {roles.map((role, idx) => (
           <FadeIn key={role.id} delay={idx * 0.1}>
             <div 
               onClick={() => toggleExpand(role.id)}
               className={`
-                group glass-panel rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden
+                group glass-panel rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden relative
                 ${expandedId === role.id ? 'border-[#1b17ff] bg-[#0a1128]' : 'border-white/5 hover:border-[#1b17ff]/50'}
               `}
             >
+              {/* Optional: Grid Background on Expanded State */}
+              {expandedId === role.id && (
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none" />
+              )}
+
               {/* Card Summary (Always Visible) */}
-              <div className="p-8 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+              <div className="p-8 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between relative z-10">
                 <div className="flex gap-6 items-center">
                   {/* Icon Box */}
                   <div className={`
-                    w-14 h-14 rounded-xl flex items-center justify-center transition-colors
+                    w-14 h-14 rounded-xl flex items-center justify-center transition-colors shrink-0
                     ${expandedId === role.id ? 'bg-[#1b17ff] text-white' : 'bg-[#1b17ff]/10 text-[#1b17ff]'}
                   `}>
                       {React.cloneElement(role.icon as React.ReactElement<{ size?: number }>, { size: 28 })}
@@ -204,11 +215,19 @@ export default function CareersPage() {
                   
                   {/* Title & Short Desc */}
                   <div>
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
                       <h3 className="text-2xl font-bold text-white">{role.title}</h3>
+                      
+                      {/* Division Badge */}
                       <span className="text-[10px] font-mono uppercase tracking-widest border border-white/10 px-2 py-0.5 rounded text-gray-400">
                         {role.division}
                       </span>
+
+                      {/* NEW: Live Status Dot */}
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 rounded border border-green-500/20">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-[9px] font-bold text-green-500 tracking-wide">OPEN</span>
+                      </div>
                     </div>
                     <p className="text-gray-400 text-sm font-light hidden md:block">{role.shortDesc}</p>
                   </div>
@@ -220,12 +239,12 @@ export default function CareersPage() {
                 </div>
               </div>
 
-              {/* Mobile Short Desc (Visible only on small screens) */}
+              {/* Mobile Short Desc */}
               <div className="px-8 pb-6 md:hidden text-sm text-gray-400 font-light border-b border-white/5">
                 {role.shortDesc}
               </div>
 
-              {/* Expanded Details (Animate Height) */}
+              {/* Expanded Details */}
               <AnimatePresence>
                 {expandedId === role.id && (
                   <motion.div
@@ -234,7 +253,7 @@ export default function CareersPage() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    <div className="px-8 pb-8 pt-4 border-t border-white/5 grid md:grid-cols-2 gap-12">
+                    <div className="px-8 pb-8 pt-4 border-t border-white/5 grid md:grid-cols-2 gap-12 relative z-10">
                       
                       {/* Left Column: Responsibilities */}
                       <div>
@@ -285,17 +304,23 @@ export default function CareersPage() {
 
       {/* GENERAL POOL CTA */}
       <FadeIn delay={0.6} className="mt-20">
-        <div className="glass-panel p-12 rounded-3xl text-center relative overflow-hidden">
+        <div className="glass-panel p-12 rounded-3xl text-center relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#1b17ff] to-transparent" />
-          <h2 className="text-3xl font-bold mb-4">Don&apos;t fit a label?</h2>
-          <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+          
+          {/* Subtle Background Icon */}
+          <div className="absolute -bottom-10 -right-10 text-white/5 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+            <Users size={200} />
+          </div>
+
+          <h2 className="text-3xl font-bold mb-4 relative z-10">Don&apos;t fit a label?</h2>
+          <p className="text-gray-400 mb-8 max-w-xl mx-auto relative z-10">
             We value hunger over resumes. If you are obsessed with markets but don&apos;t fit the boxes above, 
             apply to the General Pool. We carve roles for the right people.
           </p>
           <Link 
             href="/apply" 
             target="_blank"
-            className="inline-flex px-8 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold"
+            className="inline-flex px-8 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold relative z-10"
           >
             Apply to General Pool
           </Link>
