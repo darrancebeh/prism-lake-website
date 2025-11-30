@@ -20,7 +20,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-4 md:top-8 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
+      <nav className="fixed top-10 md:top-12 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto">
           
           {/* --- LEFT: DYNAMIC BREADCRUMBS --- */}
