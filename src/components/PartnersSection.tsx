@@ -47,7 +47,7 @@ export function PartnersSection() {
   ];
 
   return (
-    <section className="py-20 md:py-24 border-b border-[#1b17ff]/10 bg-[#020410]">
+    <section className="py-20 md:py-24 border-b border-[#1b17ff]/10 bg-[#020410] relative isolate">
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Header */}
