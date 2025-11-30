@@ -81,16 +81,34 @@ export function ReactionBar() {
 
   const handleShare = async () => {
     const url = window.location.href;
-    // Simple check: navigator.share exists?
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      try { await navigator.share({ title: "Prism Lake", url }); return; } catch (err) { return; }
+    const title = "Prism Lake Intelligence";
+
+    // 1. Detect if Mobile (We only want the Share Sheet on actual phones)
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    // 2. Mobile Logic: Native Share Sheet
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: 'Institutional-grade analysis from Prism Lake.',
+          url: url,
+        });
+        return; // Stop here if successful
+      } catch (err) {
+        // If they cancel the sheet, do nothing.
+        return; 
+      }
     }
 
+    // 3. Desktop Logic: Force Clipboard Copy
     try {
       await navigator.clipboard.writeText(url);
       setHasCopied(true);
       setTimeout(() => setHasCopied(false), 2000);
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+      console.error('Failed to copy', err); 
+    }
   };
 
   if (loading) return <div className="py-8 flex justify-center"><Loader2 className="animate-spin text-[#1b17ff]" /></div>;
