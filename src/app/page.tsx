@@ -127,12 +127,10 @@ export default function Home() {
   );
 }
 
-// ... Keep FounderSection and Card helper functions below as they are ...
-// (Paste the FounderSection code from previous responses here)
 // --- HELPER COMPONENT: FOUNDER SECTION ---
 function FounderSection() {
   return (
-    <section className="py-20 md:py-24 px-4 max-w-5xl mx-auto">
+    <section className="py-24 px-4 max-w-5xl mx-auto">
       
       {/* Section Label */}
       <div className="flex items-center gap-4 mb-8 opacity-80">
@@ -141,12 +139,12 @@ function FounderSection() {
         <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-[#1b17ff]/50" />
       </div>
 
-      <SpotlightCard className="p-6 md:p-10 overflow-hidden bg-[#0a1128]/40 border-[#1b17ff]/20">
+      <SpotlightCard className="p-8 md:p-10 overflow-hidden bg-[#0a1128]/40 border-[#1b17ff]/20">
         
-        {/* --- LAYER 1: IDENTITY (Top) --- */}
+        {/* TOP ROW: Identity & Bio */}
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start mb-10">
           
-          {/* IMAGE COLUMN */}
+          {/* IMAGE COLUMN (Fixed Width) */}
           <div className="shrink-0 relative group mx-auto md:mx-0">
             <div className="w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border-2 border-[#1b17ff]/30 relative z-10 bg-[#020410] shadow-[0_0_30px_rgba(27,23,255,0.15)] group-hover:border-[#1b17ff] transition-all duration-500">
                <Image 
@@ -168,114 +166,69 @@ function FounderSection() {
             </div>
           </div>
 
-          {/* BIO TEXT COLUMN */}
+          {/* TEXT COLUMN (Fills remaining space) */}
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Darrance Beh Heng Shek</h2>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 mb-6">
-              <span className="text-[#1b17ff] font-mono text-[10px] md:text-xs uppercase tracking-widest border-r border-white/10 pr-3">
+            <h2 className="text-4xl font-bold text-white tracking-tight mb-2">Darrance Beh Heng Shek</h2>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+              <span className="text-[#1b17ff] font-mono text-xs uppercase tracking-widest border-r border-white/10 pr-3">
                 Founder & Chief Researcher
               </span>
-              <span className="text-[10px] md:text-xs font-mono text-gray-500">Age: 20</span>
-              <span className="text-[10px] md:text-xs font-mono text-gray-500">•</span>
-              <span className="text-[10px] md:text-xs font-mono text-gray-500">BSc (Hons) Computer Science</span>
+              <span className="text-xs font-mono text-gray-500">Age: 20</span>
+              <span className="text-xs font-mono text-gray-500">•</span>
+              <span className="text-xs font-mono text-gray-500">BSc (Hons) in Computer Science</span>
             </div>
             
             <p className="text-gray-300 leading-relaxed font-light text-sm md:text-base mb-6">
-              A first-class Computer Science undergrad and active discretionary & quantitative investor-trader navigating the markets since 15 (2020).
-              He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, leveraging a background in Competitive Programming to exploit market psychology.
+              A first-class Computer Science undergrad and active discretionary and quantitative investor-trader navigating the markets since 15 in 2020.
+              He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, and leverages on a background in <span className="text-white font-medium">Competitive Programming</span> and 
+              <span className="text-white font-medium"> State-Level Debating</span> to exploit market psychology.
             </p>
 
-            <a href="https://linkedin.com/in/darrancebeh" target="_blank" className="inline-flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-[#1b17ff] transition-colors border-b border-white/10 pb-0.5 hover:border-[#1b17ff]">
-              <Link2 size={14}/> CONNECT ON LINKEDIN
-            </a>
+            {/* Socials / Secondary Stats */}
+            <div className="flex items-center justify-center md:justify-start gap-4">
+              <a href="https://linkedin.com/in/darrancebeh" target="_blank" className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-[#1b17ff] transition-colors">
+                <Link2 size={14}/> LINKEDIN
+              </a>
+              <div className="h-4 w-[1px] bg-white/10" />
+              <div className="text-xs text-gray-500 font-mono">
+                Founder of 2 Fastest-Growing MY/SG Discord Servers
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* --- LAYER 2: THE COMPETENCE TRIFECTA (Middle) --- */}
-        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mb-4">
-          
-          {/* Card A: TECHNICAL */}
-          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
-            <div className="flex items-start justify-between mb-3">
-              <div className="p-2 bg-cyan-500/10 text-cyan-500 rounded-lg border border-cyan-500/20">
-                <Terminal size={18} />
-              </div>
-              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Engineering</div>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-cyan-500 transition-colors">
-              Self-Taught Programmer
-            </h4>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              Former competitive programmer (2019). Algorithms aren't just theory; they are weapons.
-            </p>
-          </div>
-
-          {/* Card B: SOFT POWER */}
-          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
-            <div className="flex items-start justify-between mb-3">
-              <div className="p-2 bg-purple-500/10 text-purple-500 rounded-lg border border-purple-500/20">
-                <Mic2 size={18} />
-              </div>
-              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Communication</div>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-purple-500 transition-colors">
-              State-Level Debater
-            </h4>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              CHKL Alumni. Serial Host & Moderator. I don't just find alpha; I articulate it.
-            </p>
-          </div>
-
-          {/* Card C: COMMUNITY */}
-          <div className="p-5 rounded-xl bg-white/5 border border-white/5 hover:border-[#1b17ff]/50 transition-colors group/card h-full">
-            <div className="flex items-start justify-between mb-3">
-              <div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg border border-amber-500/20">
-                <Users size={18} />
-              </div>
-              <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Builders</div>
-            </div>
-            <h4 className="text-sm font-bold text-white mb-2 group-hover/card:text-amber-500 transition-colors">
-              Ecosystem Founder
-            </h4>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              Founded <strong>VALORANT Malaysia</strong> (Acquired by Official) & <strong>The Coffee Shop</strong> (Fastest growing MY/SG Discord).
-            </p>
-          </div>
-
-        </div>
-
-        {/* --- LAYER 3: THE "ALPHA" ANCHOR (Bottom) --- */}
-        <div className="relative rounded-xl bg-gradient-to-r from-[#1b17ff]/10 to-[#0a1128] border border-[#1b17ff]/30 p-6 md:p-8 overflow-hidden group mt-4">
+        {/* BOTTOM ROW: The "Alpha" Box (Full Width) */}
+        <div className="relative rounded-xl bg-gradient-to-r from-[#1b17ff]/10 to-[#0a1128] border border-[#1b17ff]/30 p-6 md:p-8 overflow-hidden group">
           
           {/* Background Highlight */}
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <TrendingUp size={100} className="text-[#1b17ff]" />
           </div>
 
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
             
             {/* The Numbers */}
-            <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start gap-2">
               <div className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-1">
                 <ShieldCheck size={14} /> 
                 Performance Audit (2020 - 2025)
               </div>
-              <div className="flex items-center gap-3 md:gap-4">
+              <div className="flex items-center gap-4">
                 <span className="text-3xl md:text-4xl font-bold text-white/60">RM 600</span>
                 <ArrowRight size={24} className="text-[#1b17ff] animate-pulse" />
                 <span className="text-4xl md:text-5xl font-bold text-white">6-Figures</span>
               </div>
               <div className="mt-2 inline-flex items-center gap-2 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-[10px] text-green-400 font-mono">
-                <TrendingUp size={10} /> 59.8% CAGR (5Y, RM400 Avg Monthly DCA)
+                <TrendingUp size={10} /> 59.8% CAGR (5 Years, RM400 AVG Monthly DCA)
               </div>
             </div>
 
             {/* The Context */}
             <div className="text-center md:text-right max-w-sm">
-              <p className="text-xs md:text-sm text-gray-300 font-light leading-relaxed">
-                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities.
+              <p className="text-sm text-gray-300 font-light leading-relaxed">
+                Achieved via <strong className="text-white">Discretionary & Quantitative Investing</strong> in US Equities & Digital Commodities since 2020.
               </p>
-              <div className="mt-3 text-[10px] md:text-xs text-gray-500 font-mono border-t border-white/5 pt-3 inline-block">
+              <div className="mt-3 text-xs text-gray-500 font-mono border-t border-white/5 pt-3 inline-block">
                 Currently self-funding Sunway University tuition (~RM60k) purely through portfolio.
               </div>
             </div>

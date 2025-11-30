@@ -26,7 +26,7 @@ export async function ResearchSection() {
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold font-sans text-white">
-            Market <span className="text-[#1b17ff]">Alpha.</span>
+            Market <span className="text-[#1b17ff]">Alpha</span>.
           </h2>
           
           <p className="mt-4 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
@@ -56,7 +56,7 @@ export async function ResearchSection() {
               {/* "Latest Release" Badge (Only on first card) */}
               {index === 0 && (
                 <div className="absolute top-0 right-0 bg-[#1b17ff] text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg z-20 font-mono tracking-wider">
-                  LATEST SIGNAL
+                  LATEST RELEASE
                 </div>
               )}
 

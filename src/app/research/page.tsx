@@ -20,9 +20,8 @@ export default async function ResearchPage() {
         <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white tracking-tighter">
           Prism <span className="text-[#1b17ff]">Intelligence</span>.
         </h1>
-        <p className="text-gray-400 text-lg max-w-2xl leading-relaxed font-light">
-          We don&apos;t sell signals. We publish logic. <br/>
-          Browse our full archive of market microstructure deep-dives and volatility analysis.
+        <p className="text-gray-400 text-lg max-w-2xl">
+          Institutional-grade Market Analysis & Education, in Real Time. <br/>Brought to you by the Prism Lake Research Team.
         </p>
       </div>
 
