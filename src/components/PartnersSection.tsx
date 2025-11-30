@@ -32,7 +32,7 @@ export function PartnersSection() {
     },
     {
       name: "TOKEN2049",
-      logo: "/logos/token2049.png",
+      logo: "/logos/token20492.png",
       category: "Industry Network",
       width: 160,
       mobileWidth: 120,
