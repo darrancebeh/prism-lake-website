@@ -81,7 +81,7 @@ export function ReactionBar() {
 
   const handleShare = async () => {
     const url = window.location.href;
-    const title = "Prism Lake Intelligence";
+    const title = "Prism Intelligence Article by Prism Lake";
 
     // 1. Detect if Mobile (We only want the Share Sheet on actual phones)
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -91,7 +91,6 @@ export function ReactionBar() {
       try {
         await navigator.share({
           title: title,
-          text: 'Institutional-grade analysis from Prism Lake.',
           url: url,
         });
         return; // Stop here if successful
