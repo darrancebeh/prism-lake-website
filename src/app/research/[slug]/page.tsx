@@ -73,7 +73,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                <div className="w-12 h-12 bg-[#1b17ff]/20 text-[#1b17ff] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#1b17ff]/20">
                  <Lock size={20} />
                </div>
-               <h3 className="text-xl font-bold text-white mb-2">Institutional Access Required</h3>
+               <h3 className="text-xl font-bold text-white mb-2">Subscription Access Required</h3>
                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
                  This deep-dive analysis contains proprietary research and analysis reserved for Prism Lake Subscribers and Clients.
                </p>
