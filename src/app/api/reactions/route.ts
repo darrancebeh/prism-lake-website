@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   // Format data
   const votes = { up: 0, down: 0, fire: 0 };
   totalsResult.rows.forEach(row => {
-    // @ts-ignore
+    // @ts-expect-error count is string from SQL
     votes[row.type] = parseInt(row.count);
   });
 
