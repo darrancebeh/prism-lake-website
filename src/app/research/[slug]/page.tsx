@@ -75,7 +75,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                </div>
                <h3 className="text-xl font-bold text-white mb-2">Institutional Access Required</h3>
                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                 This deep-dive analysis contains proprietary volatility data reserved for Prism Lake Partners and Clients.
+                 This deep-dive analysis contains proprietary research and analysis reserved for Prism Lake Subscribers and Clients.
                </p>
                <button className="w-full py-3 bg-[#1b17ff] text-white font-bold rounded hover:bg-[#1b17ff]/90 transition-all text-sm tracking-wide shadow-lg shadow-[#1b17ff]/20">
                  REQUEST ACCESS
