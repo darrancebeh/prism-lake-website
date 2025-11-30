@@ -4,6 +4,7 @@ import { Lock } from "lucide-react";
 import { CommentSection } from "@/components/CommentSection"; 
 import { ReactionBar } from "@/components/ReactionBar";
 import { Metadata } from 'next';
+import { ArticleFooter } from "@/components/ArticleFooter";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -112,6 +113,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </div>
           </div>
         )}
+      </div>
+
+      {/* --- NEW: AUTHOR FOOTER --- */}
+      <div className="max-w-3xl mx-auto animate-fade-in delay-100 mb-16">
+        <ArticleFooter author={post.meta.author} />
       </div>
 
       {/* --- NEW ENGAGEMENT SECTION --- */}
