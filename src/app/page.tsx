@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Cpu, ShieldCheck, TrendingUp, Link2, Terminal, Mic2, Users, ChevronDown, Plus, Minus } from "lucide-react";
+import { ArrowRight, Cpu, ShieldCheck, TrendingUp, Link2, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Components
