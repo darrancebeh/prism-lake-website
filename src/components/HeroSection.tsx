@@ -45,7 +45,7 @@ export function HeroSection() {
         {/* Sub-headline with Subtitle */}
         <div className="text-center max-w-3xl mb-10 px-4 space-y-6">
           <p className="text-xls md:text-2xl text-gray-200 leading-tight font-light tracking-relaxed">
-            Malaysia&apos;s pioneering <span className="text-[#1b17ff] font-medium">quantitative research</span> and <span className="text-[#1b17ff] font-medium">proprietary trading</span> firm.
+            Malaysia&apos;s pioneering <span className="text-[#1b17ff] font-medium">quantitative research</span> and <span className="text-[#1b17ff] font-medium">proprietary trading</span> firm, specializing in US Equities & Derivatives.
           </p>
           <div className="flex items-center justify-center gap-3">
             <span className="h-px w-12 bg-[#1b17ff]/30"></span>
