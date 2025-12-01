@@ -257,11 +257,22 @@ export default async function ResearchPage() {
               <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
                 <Zap size={120} />
               </div>
-              <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Circle Access.</h4>
-              <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Get institutional signals delivered to your terminal.</p>
-              <button className="w-full py-3 bg-[#1b17ff] text-white font-bold text-xs rounded-lg shadow-lg hover:bg-[#1b17ff]/90 transition-all relative z-10 tracking-widest border border-white/10">
-                INITIALIZE SUBSCRIPTION
-              </button>
+              {/* Subscribe Box */}
+              <div className="mt-auto glass-panel p-6 rounded-xl bg-gradient-to-br from-[#1b17ff]/20 to-[#0a1128] border border-[#1b17ff]/30 text-center relative overflow-hidden group">
+                <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                  <Zap size={120} />
+                </div>
+                <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Circle Access.</h4>
+                <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Get the weekly institutional memo delivered to your terminal.</p>
+                
+                {/* NEW LINK BUTTON */}
+                <Link 
+                  href="/subscribe"
+                  className="block w-full py-3 bg-[#1b17ff] text-white font-bold text-xs rounded-lg shadow-lg hover:bg-[#1b17ff]/90 transition-all relative z-10 tracking-widest border border-white/10"
+                >
+                  INITIALIZE SUBSCRIPTION
+                </Link>
+              </div>
             </div>
           </div>
 
