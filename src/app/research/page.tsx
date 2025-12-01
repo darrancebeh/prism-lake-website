@@ -21,7 +21,7 @@ import { ArchiveGrid } from "@/components/ArchiveGrid";
 const FEATURED_SLUG = "the-structural-decoupling-of-value"; 
 
 export const metadata = {
-  title: "Prism Intelligence | The Wire",
+  title: "Prism Intelligence by Prism Lake",
   description: "Real-time market microstructure analysis and volatility research.",
 };
 
@@ -73,14 +73,14 @@ export default async function ResearchPage() {
               <span className="text-[10px] font-mono text-green-500 tracking-widest uppercase">Live Feed</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold font-sans text-white tracking-tight">
-              THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1b17ff] to-cyan-400">WIRE</span>.
+              PRISM <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1b17ff] to-cyan-400">INTELLIGENCE</span>.
             </h1>
           </div>
           
           <div className="flex flex-col items-end gap-4 mt-6 md:mt-0 w-full md:w-auto">
             <div className="flex flex-wrap justify-end gap-2">
               <CoverageBadge icon={<Globe size={10} />} label="US MARKETS" />
-              <CoverageBadge icon={<Zap size={10} />} label="VOLATILITY" />
+              <CoverageBadge icon={<Zap size={10} />} label="MARKET RESEARCH" />
               <CoverageBadge icon={<Cpu size={10} />} label="QUANT" />
             </div>
             <div className="relative group w-full md:w-64">
