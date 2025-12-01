@@ -12,9 +12,13 @@ import {
   BookOpen, 
   Pin, 
   Globe, 
-  LayoutGrid 
+  LayoutGrid,
+  AlertCircle
 } from "lucide-react";
 import { ArchiveGrid } from "@/components/ArchiveGrid";
+
+// --- CONFIGURATION ---
+const FEATURED_SLUG = "the-structural-decoupling-of-value"; 
 
 export const metadata = {
   title: "Prism Intelligence | The Wire",
@@ -23,20 +27,25 @@ export const metadata = {
 
 export default async function ResearchPage() {
   // 1. Fetch Data (Parallel)
-  const [allPosts, flashUpdates] = await Promise.all([
-    getPosts(),
-    getFlashUpdates()
+  const [longFormPosts, flashUpdates] = await Promise.all([
+    getPosts(),         // Long-form articles
+    getFlashUpdates()   // Short flash updates
   ]);
   
-  // 2. Segmentation Strategy
-  // Featured = The single newest (or pinned) long-form article
-  const featuredPost = allPosts[0]; 
+  // 2. Determine Featured Post
+  let featuredPost = longFormPosts.find(p => p.slug === FEATURED_SLUG);
   
-  // Archive = All remaining long-form articles (passed to the interactive filter grid)
-  const archivePosts = allPosts.slice(1); 
+  if (!featuredPost) {
+    // Fallback logic
+    featuredPost = longFormPosts.find(p => p.meta.isPinned) || longFormPosts[0];
+  }
 
-  // The Wire = The top 5 most recent Flash Updates (Short snippets)
+  // 3. The Wire (Flash Updates)
+  // FIX: We define this as 'wireUpdates' to match the JSX below
   const wireUpdates = flashUpdates.slice(0, 5);
+
+  // 4. The Archive (Long Form)
+  const archivePosts = longFormPosts;
 
   return (
     <div className="min-h-screen bg-[#020410] pt-32 pb-20 px-4 md:px-6 relative overflow-hidden">
@@ -46,7 +55,7 @@ export default async function ResearchPage() {
       
       <div className="max-w-7xl mx-auto relative z-10">
 
-        {/* --- 1. THE TERMINAL HEADER --- */}
+        {/* --- 1. HEADER --- */}
         <header className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-6">
           <div className="w-full md:w-auto">
             <div className="flex items-center gap-2 mb-2">
@@ -59,15 +68,11 @@ export default async function ResearchPage() {
           </div>
           
           <div className="flex flex-col items-end gap-4 mt-6 md:mt-0 w-full md:w-auto">
-            
-            {/* COVERAGE HUD */}
             <div className="flex flex-wrap justify-end gap-2">
               <CoverageBadge icon={<Globe size={10} />} label="US MARKETS" />
               <CoverageBadge icon={<Zap size={10} />} label="VOLATILITY" />
               <CoverageBadge icon={<Cpu size={10} />} label="QUANT" />
             </div>
-
-            {/* TERMINAL SEARCH BAR (Visual Only) */}
             <div className="relative group w-full md:w-64">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-500 font-mono">
                 <Terminal size={14} />
@@ -82,15 +87,13 @@ export default async function ResearchPage() {
                 <Search size={14} className="text-gray-600 group-focus-within:text-[#1b17ff] transition-colors" />
               </div>
             </div>
-
           </div>
         </header>
 
-        {/* --- 2. TRENDING MARQUEE --- */}
+        {/* --- 2. MARQUEE --- */}
         <div className="mb-12 overflow-hidden relative">
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#020410] to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#020410] to-transparent z-10" />
-          
           <div className="flex gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-widest animate-marquee whitespace-nowrap">
              {[1,2,3,4].map(i => (
                 <div key={i} className="flex gap-8">
@@ -104,44 +107,33 @@ export default async function ResearchPage() {
           </div>
         </div>
 
-
-        {/* --- 3. THE "ABOVE THE FOLD" BENTO --- */}
+        {/* --- 3. BENTO SECTION (Featured + Wire) --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-24">
-          
+            
           {/* LEFT: FEATURED STORY (Long-Form) */}
           <div className="lg:col-span-8 group relative">
             {featuredPost ? (
               <Link href={`/research/${featuredPost.slug}`} className="block h-full">
                 <div className="h-full glass-panel p-8 md:p-12 rounded-3xl border border-[#1b17ff]/30 bg-gradient-to-br from-[#0a1128] to-[#020410] relative overflow-hidden hover:shadow-[0_0_50px_rgba(27,23,255,0.15)] transition-all duration-500 group-hover:-translate-y-1">
-                  
-                  {/* Background Glow */}
                   <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#1b17ff] opacity-10 blur-[100px] group-hover:opacity-20 transition-opacity" />
                   
                   <div className="relative z-10 flex flex-col h-full justify-between min-h-[420px]">
                     <div>
-                      {/* Meta Row */}
                       <div className="flex flex-wrap items-center gap-3 mb-6">
-                        
-                        {/* Pinned Badge */}
                         {featuredPost.meta.isPinned && (
                           <span className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-bold font-mono rounded-full tracking-wide flex items-center gap-1 shadow-glow-amber">
                             <Pin size={10} fill="currentColor" /> PINNED
                           </span>
                         )}
-
                         <span className="px-3 py-1 bg-[#1b17ff] text-white text-[10px] font-bold font-mono rounded-full tracking-wide shadow-glow">
                           FEATURED
                         </span>
-                        
-                        {/* Categories */}
                         {featuredPost.meta.categories.slice(0, 3).map((cat) => (
                           <span key={cat} className="text-[10px] font-mono text-[#1b17ff] uppercase bg-[#1b17ff]/10 px-2 py-0.5 rounded border border-[#1b17ff]/20">
                             {cat}
                           </span>
                         ))}
-
                         <div className="h-4 w-[1px] bg-white/20 hidden sm:block" />
-                        
                         <span className="text-xs text-gray-400 font-mono flex items-center gap-1.5">
                           <Clock size={12} /> {featuredPost.meta.readTime}
                         </span>
@@ -150,13 +142,11 @@ export default async function ResearchPage() {
                       <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-[1.1] group-hover:text-[#1b17ff] transition-colors">
                         {featuredPost.meta.title}
                       </h2>
-                      
                       <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl line-clamp-3">
                         {featuredPost.meta.description}
                       </p>
                     </div>
 
-                    {/* Author & CTA */}
                     <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/10">
                       <div className="flex items-center gap-3">
                         <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/20 p-[1px] bg-gradient-to-tr from-[#1b17ff] to-cyan-500">
@@ -186,7 +176,7 @@ export default async function ResearchPage() {
                 </div>
               </Link>
             ) : (
-              <div className="h-full glass-panel p-12 flex flex-col items-center justify-center text-center border-dashed border-gray-800">
+              <div className="h-full glass-panel p-12 flex flex-col items-center justify-center text-center border-dashed border-gray-800 min-h-[400px]">
                 <BookOpen size={48} className="text-gray-700 mb-4" />
                 <h3 className="text-xl font-bold text-gray-500">No Featured Intelligence</h3>
                 <p className="text-sm text-gray-600 mt-2">System awaiting primary signal input.</p>
@@ -194,7 +184,7 @@ export default async function ResearchPage() {
             )}
           </div>
 
-          {/* RIGHT: THE "WIRE" (Flash Updates Sidebar) */}
+          {/* RIGHT: THE "WIRE" (Flash Updates) */}
           <div className="lg:col-span-4 flex flex-col gap-4 h-full">
             <div className="flex items-center justify-between px-2 mb-1">
               <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -204,7 +194,7 @@ export default async function ResearchPage() {
               <span className="text-[10px] font-mono text-[#1b17ff] animate-pulse">RECEIVING DATA...</span>
             </div>
             
-            {/* Loop Flash Updates */}
+            {/* FLASH UPDATES LOOP */}
             {wireUpdates.length > 0 ? (
               wireUpdates.map((flash) => (
                 <div 
@@ -212,35 +202,41 @@ export default async function ResearchPage() {
                   className={`
                     glass-panel p-4 rounded-xl border transition-all relative overflow-hidden
                     ${flash.meta.impact === 'High' 
-                      ? 'border-red-500/30 bg-red-500/5' 
+                      ? 'border-red-500/40 bg-red-500/5' 
                       : 'border-white/5 hover:border-[#1b17ff]/50 hover:bg-[#1b17ff]/5'}
                   `}
                 >
                   {/* High Impact Pulse */}
                   {flash.meta.impact === 'High' && (
-                    <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                    <div className="absolute top-3 right-3 flex gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    </div>
                   )}
 
-                  <div className="flex justify-between items-start mb-2">
-                    <span className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded border 
-                      ${flash.meta.impact === 'High' 
-                        ? 'text-red-400 border-red-500/30 bg-red-500/10' 
-                        : 'text-[#1b17ff] border-[#1b17ff]/20 bg-[#1b17ff]/10'}`
-                    }>
-                      {flash.meta.category}
-                    </span>
-                    <span className="text-[10px] text-gray-500 font-mono flex items-center gap-1">
-                      {flash.meta.time} <span className="text-gray-700">ET</span>
-                    </span>
+                  <div className="flex justify-between items-start mb-2 pr-6">
+                    <div className="flex gap-2 items-center">
+                      <span className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded border 
+                        ${flash.meta.impact === 'High' 
+                          ? 'text-red-400 border-red-500/30 bg-red-500/10' 
+                          : 'text-[#1b17ff] border-[#1b17ff]/20 bg-[#1b17ff]/10'}`
+                      }>
+                        {flash.meta.category}
+                      </span>
+                      <span className="text-[10px] text-gray-500 font-mono">
+                        {flash.meta.time} ET
+                      </span>
+                    </div>
                   </div>
                   
-                  <h4 className={`text-sm font-bold leading-snug ${flash.meta.impact === 'High' ? 'text-white' : 'text-gray-200'}`}>
+                  <h4 className={`text-sm font-bold leading-snug ${flash.meta.impact === 'High' ? 'text-white' : 'text-gray-300'}`}>
                     {flash.meta.headline}
                   </h4>
                 </div>
               ))
             ) : (
-              <div className="p-6 text-center border border-dashed border-white/10 rounded-xl bg-white/5">
+              <div className="p-6 text-center border border-dashed border-white/10 rounded-xl bg-white/5 flex-1 flex flex-col items-center justify-center">
+                <AlertCircle size={24} className="text-gray-600 mb-2" />
                 <p className="text-xs text-gray-500 font-mono">NO FLASH SIGNALS DETECTED</p>
               </div>
             )}
@@ -251,7 +247,7 @@ export default async function ResearchPage() {
                 <Zap size={120} />
               </div>
               <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Circle Access.</h4>
-              <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Get the weekly institutional memo delivered to your terminal.</p>
+              <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Get institutional signals delivered to your terminal.</p>
               <button className="w-full py-3 bg-[#1b17ff] text-white font-bold text-xs rounded-lg shadow-lg hover:bg-[#1b17ff]/90 transition-all relative z-10 tracking-widest border border-white/10">
                 INITIALIZE SUBSCRIPTION
               </button>
@@ -260,8 +256,7 @@ export default async function ResearchPage() {
 
         </div>
 
-
-        {/* --- 3. THE ARCHIVE (Client-Side Filterable Grid) --- */}
+        {/* --- 3. THE ARCHIVE (Interactive) --- */}
         <ArchiveGrid posts={archivePosts} />
 
       </div>
@@ -269,8 +264,7 @@ export default async function ResearchPage() {
   );
 }
 
-// --- UI HELPERS ---
-
+// UI Helper
 function CoverageBadge({ icon, label }: { icon: React.ReactNode, label: string }) {
   return (
     <div className="flex items-center gap-1.5 px-3 py-1 bg-[#0a1128] border border-white/10 rounded-full text-[10px] font-bold text-gray-400 font-mono hover:text-white hover:border-[#1b17ff] transition-colors cursor-default">
