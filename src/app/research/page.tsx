@@ -16,6 +16,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { ArchiveGrid } from "@/components/ArchiveGrid";
+import { FadeIn } from "@/components/FadeIn";
 
 // --- CONFIGURATION ---
 const FEATURED_SLUG = "the-structural-decoupling-of-value"; 
@@ -64,7 +65,7 @@ export default async function ResearchPage() {
       <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-[#1b17ff]/5 to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-
+        <FadeIn>
         {/* --- 1. HEADER --- */}
         <header className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-6">
           <div className="w-full md:w-auto">
@@ -99,8 +100,10 @@ export default async function ResearchPage() {
             </div>
           </div>
         </header>
+        </FadeIn>
 
         {/* --- 2. COMPLEXITY LEGEND (Minimal) --- */}
+        <FadeIn>
         <div className="mb-6 flex items-center justify-end gap-4 px-2">
           <span className="text-[9px] font-mono text-gray-600 uppercase tracking-widest flex items-center gap-2">
             <span className="w-1 h-1 rounded-full bg-cyan-400" />
@@ -109,8 +112,10 @@ export default async function ResearchPage() {
             Complexity Scale
           </span>
         </div>
+        </FadeIn>
 
-        {/* --- 2. MARQUEE --- */}
+        {/* --- 3. MARQUEE --- */}
+        <FadeIn>
         <div className="mb-12 overflow-hidden relative">
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#020410] to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#020410] to-transparent z-10" />
@@ -126,8 +131,10 @@ export default async function ResearchPage() {
              ))}
           </div>
         </div>
+        </FadeIn>
 
-        {/* --- 3. BENTO SECTION --- */}
+        {/* --- 4. BENTO SECTION --- */}
+        <FadeIn>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-24">
             
           {/* FEATURED STORY */}
@@ -222,6 +229,7 @@ export default async function ResearchPage() {
               </div>
             )}
           </div>
+        
 
           {/* THE WIRE (Flash Updates) */}
           <div className="lg:col-span-4 flex flex-col gap-4 h-full">
@@ -302,11 +310,13 @@ export default async function ResearchPage() {
           </div>
 
         </div>
+        </FadeIn>
 
 
-        {/* --- 3. THE ARCHIVE (Interactive Component) --- */}
+        {/* --- 5. THE ARCHIVE (Interactive Component) --- */}
+        <FadeIn>
         <ArchiveGrid posts={archivePosts} />
-
+        </FadeIn>
       </div>
     </div>
   );
