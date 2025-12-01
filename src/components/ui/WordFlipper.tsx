@@ -46,9 +46,12 @@ export function WordFlipper() {
             mass: 1.2,
             layout: { duration: 0.3 }
           }}
-          className="whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-[#1b17ff] to-[#2549e7] font-black block origin-center drop-shadow-[0_0_15px_rgba(27,23,255,0.5)] drop-shadow-[0_0_30px_rgba(27,23,255,0.5)] text-[1.05em] md:text-[1.15em] tracking-wider"
+          className="whitespace-nowrap font-black block origin-center text-[1.05em] md:text-[1.15em] tracking-wider"
         >
-          {words[index]}.
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1b17ff] to-[#2549e7] drop-shadow-[0_0_15px_rgba(27,23,255,0.5)] drop-shadow-[0_0_30px_rgba(27,23,255,0.5)]">
+            {words[index]}
+          </span>
+          <span className="text-white">.</span>
         </motion.span>
       </AnimatePresence>
     </div>
