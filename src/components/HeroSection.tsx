@@ -67,8 +67,15 @@ export function HeroSection() {
           </Link>
           
           <Link 
-            href="/#track-record" 
+            href="#track-record" 
             className="w-full sm:w-auto px-8 py-4 glass-panel text-white font-medium rounded-lg hover:bg-white/5 transition-all flex items-center justify-center text-sm md:text-base"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('track-record')?.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }}
           >
             View Track Record
           </Link>
@@ -122,7 +129,7 @@ function Card({ icon, title, desc }: { icon: React.ReactNode, title: string, des
         <div className="mb-6 bg-[#0a1128] w-12 h-12 flex items-center justify-center rounded-xl border border-[#1b17ff]/20 group-hover:shadow-[0_0_15px_rgba(27,23,255,0.3)] transition-all">
           {icon}
         </div>
-        <h3 className="text-xl font-bold text-white mb-3 font-sans tracking-tight">{title}</h3>
+        <h3 className="text-xl font-bold text-white mb-3 font-mono tracking-tight">{title}</h3>
         <p className="text-sm text-gray-400 leading-relaxed font-mono">{desc}</p>
       </div>
     </div>
