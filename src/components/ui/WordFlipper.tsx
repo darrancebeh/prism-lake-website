@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const words = ["REALITY", "US EQUITIES", "DERIVATIVES", "VOLATILITY", "INFORMATION", "INEFFICIENCY", "ASYMMETRY", "CONVEXITY", "ALGORITHMICALLY", "QUANTITATIVELY"];
+const words = ["REALITY", "THE FUTURE", "GLOBALLY", "ALPHA", "US EQUITIES", "DERIVATIVES", "VOLATILITY", "MICROSTRUCTURE", "DISPERSION", "INFORMATION", "EXPECTANCY", "ASYMMETRY", "CONVEXITY", "ALGORITHMICALLY", "QUANTITATIVELY", "24/7"];
 
 export function WordFlipper() {
   const [index, setIndex] = useState(0);
