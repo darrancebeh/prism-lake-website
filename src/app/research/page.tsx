@@ -25,6 +25,32 @@ export const metadata = {
   description: "Real-time market microstructure analysis and volatility research.",
 };
 
+// Helper: Complexity Badge Component
+function ComplexityBadge({ level }: { level?: string }) {
+  const complexity = level || "Medium";
+  const fillCount = complexity === "High" ? 3 : complexity === "Medium" ? 2 : 1;
+  
+  // Color mapping: Low = Blue, Medium = Orange, High = Red
+  const colors = [
+    'bg-[#22d3ee]',           // Bar 1: Cyan
+    'bg-[#1b17ff]',          // Bar 2: Blue
+    'bg-[#4f46e5]'              // Bar 3: Violet
+  ];
+  
+  return (
+    <div className="flex items-center gap-1" title={`Complexity: ${complexity}`}>
+      {[0, 1, 2].map((i) => (
+        <div 
+          key={i} 
+          className={`w-1 h-3 rounded-sm transition-all ${
+            i < fillCount ? colors[i] : 'bg-white/10'
+          }`} 
+        />
+      ))}
+    </div>
+  );
+}
+
 export default async function ResearchPage() {
   // 1. Fetch Data (Parallel)
   const [longFormPosts, flashUpdates] = await Promise.all([
@@ -41,7 +67,6 @@ export default async function ResearchPage() {
   }
 
   // 3. The Wire (Flash Updates)
-  // FIX: We define this as 'wireUpdates' to match the JSX below
   const wireUpdates = flashUpdates.slice(0, 5);
 
   // 4. The Archive (Long Form)
@@ -137,6 +162,8 @@ export default async function ResearchPage() {
                         <span className="text-xs text-gray-400 font-mono flex items-center gap-1.5">
                           <Clock size={12} /> {featuredPost.meta.readTime}
                         </span>
+                        <div className="h-4 w-[1px] bg-white/20 hidden sm:block" />
+                        <ComplexityBadge level={featuredPost.meta.complexity} />
                       </div>
                       
                       <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-[1.1] group-hover:text-[#1b17ff] transition-colors">

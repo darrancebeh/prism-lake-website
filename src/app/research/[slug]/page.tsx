@@ -90,14 +90,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             {/* Complexity Visualizer */}
             <div className="flex flex-col items-end">
               <span className="text-[9px] font-mono text-gray-600 uppercase tracking-widest mb-1">Complexity</span>
-              <div className="flex gap-1" title={`Complexity: ${post.meta.complexity}`}>
-                {/* Bar 1 */}
-                <div className={`w-1.5 h-3 rounded-sm ${post.meta.complexity ? 'bg-cyan-400 shadow-[0_0_5px_cyan]' : 'bg-white/10'}`} />
-                {/* Bar 2 */}
-                <div className={`w-1.5 h-3 rounded-sm ${post.meta.complexity === 'Medium' || post.meta.complexity === 'High' ? 'bg-[#1b17ff] shadow-[0_0_5px_#1b17ff]' : 'bg-white/10'}`} />
-                {/* Bar 3 */}
-                <div className={`w-1.5 h-3 rounded-sm ${post.meta.complexity === 'High' ? 'bg-purple-500 shadow-[0_0_5px_purple]' : 'bg-white/10'}`} />
-              </div>
+              <ComplexityBadge level={post.meta.complexity} />
             </div>
 
           </div>
@@ -182,5 +175,47 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       )}
 
     </article>
+  );
+}
+
+// --- ROBUST HELPER COMPONENT ---
+
+function ComplexityBadge({ level }: { level?: string }) {
+  // 1. Normalize input to lowercase to handle "High", "HIGH", "high"
+  const normalizedLevel = level?.toLowerCase() || "medium";
+
+  // 2. Logic: Determine which bars are active
+  // "Low" activates Bar 1. "Medium" activates 1 & 2. "High" activates 1, 2 & 3.
+  const showBar1 = ["low", "medium", "high"].includes(normalizedLevel);
+  const showBar2 = ["medium", "high"].includes(normalizedLevel);
+  const showBar3 = ["high"].includes(normalizedLevel);
+
+  return (
+    <div className="flex gap-1" title={`Complexity: ${level}`}>
+      
+      {/* Bar 1: Low (Brand Blue) */}
+      {/* Represents foundational knowledge */}
+      <div 
+        className={`w-1.5 h-3 rounded-sm transition-all duration-500 ${
+          showBar1 ? 'bg-[#1b17ff] shadow-[0_0_8px_#1b17ff]' : 'bg-white/10'
+        }`} 
+      />
+      
+      {/* Bar 2: Medium (Cyan) */}
+      {/* Represents intermediate concepts / volatility */}
+      <div 
+        className={`w-1.5 h-3 rounded-sm transition-all duration-500 ${
+          showBar2 ? 'bg-[#22d3ee]' : 'bg-white/10'
+        }`} 
+      />
+      
+      {/* Bar 3: High (Violet) */}
+      {/* Represents advanced math / deep alpha */}
+      <div 
+        className={`w-1.5 h-3 rounded-sm transition-all duration-500 ${
+          showBar3 ? 'bg-[#4f46e5]' : 'bg-white/10'
+        }`} 
+      />
+    </div>
   );
 }

@@ -90,9 +90,9 @@ export function ArchiveGrid({ posts }: { posts: Post[] }) {
                   {/* Complexity Visual */}
                   <div className="flex flex-col items-end gap-1">
                     <div className="flex gap-0.5">
-                      <div className={`w-1 h-3 rounded-sm bg-[#1b17ff]`} />
+                      <div className={`w-1 h-3 rounded-sm bg-[#22d3ee]`} />
                       <div className={`w-1 h-3 rounded-sm ${post.meta.complexity === 'Medium' || post.meta.complexity === 'High' ? 'bg-[#1b17ff]' : 'bg-white/10'}`} />
-                      <div className={`w-1 h-3 rounded-sm ${post.meta.complexity === 'High' ? 'bg-[#1b17ff]' : 'bg-white/10'}`} />
+                      <div className={`w-1 h-3 rounded-sm ${post.meta.complexity === 'High' ? 'bg-[#4f46e5]' : 'bg-white/10'}`} />
                     </div>
                   </div>
                 </div>
