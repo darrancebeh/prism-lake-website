@@ -262,8 +262,8 @@ export default async function ResearchPage() {
                 <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
                   <Zap size={120} />
                 </div>
-                <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Circle Access.</h4>
-                <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Get the weekly institutional memo delivered to your terminal.</p>
+                <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Prism Access.</h4>
+                <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Proprietary Insights and Coverage. Straight from our research team.</p>
                 
                 {/* NEW LINK BUTTON */}
                 <Link 
