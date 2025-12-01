@@ -4,12 +4,24 @@ import matter from "gray-matter";
 const REPO_OWNER = process.env.GITHUB_REPO_OWNER;
 const REPO_NAME = process.env.GITHUB_REPO_NAME;
 const FOLDER_PATH = process.env.GITHUB_CONTENT_PATH || "content/research";
+const FLASH_FOLDER_PATH = process.env.GITHUB_FLASH_CONTENT_PATH || "content/flash-updates";
 const TOKEN = process.env.GITHUB_VAULT_TOKEN;
 
 // Validation Check
 if (!REPO_OWNER || !REPO_NAME || !TOKEN) {
   // In production, you might want to just log a warning instead of crashing
   console.error("❌ MISSING ENV VARIABLES: Please check .env.local for GitHub config.");
+}
+
+export interface FlashUpdate {
+  id: string; // filename
+  meta: {
+    headline: string;
+    date: string; // YYYY-MM-DD
+    time: string; // HH:MM (24h)
+    category: string; // e.g. MACRO, EARNINGS
+    impact: "High" | "Medium" | "Low"; // For visual urgency
+  };
 }
 
 // Interfaces
@@ -108,6 +120,49 @@ export async function getPosts(): Promise<Post[]> {
 
   } catch (error) {
     console.error("Vault Access Failed:", error);
+    return [];
+  }
+}
+
+// --- NEW FUNCTION: GET FLASH UPDATES ---
+export async function getFlashUpdates(): Promise<FlashUpdate[]> {
+  try {
+    // Reuse the existing helper but point to the new folder
+    // We need to manually construct the url inside fetchGithubFileList to accept a custom path arg
+    // OR we just duplicate the fetch logic slightly for safety/clarity here:
+    
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FLASH_FOLDER_PATH}`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+      next: { revalidate: 30 }, // Faster revalidation (30s) for live news
+    });
+
+    if (!res.ok) return []; // Fail silently if folder doesn't exist yet
+
+    const files: GitHubFile[] = await res.json();
+    const validFiles = files.filter((f) => f.name.endsWith(".mdx") && f.type === "file");
+
+    const updates = await Promise.all(
+      validFiles.map(async (file) => {
+        const rawContent = await fetchGithubFile(file.path);
+        const { data: meta } = matter(rawContent);
+        
+        return {
+          id: file.name,
+          meta,
+        } as FlashUpdate;
+      })
+    );
+
+    // Sort by Date AND Time (Newest first)
+    return updates.sort((a, b) => {
+      const dateA = new Date(`${a.meta.date}T${a.meta.time}`);
+      const dateB = new Date(`${b.meta.date}T${b.meta.time}`);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+  } catch (error) {
+    console.error("Flash Feed Offline:", error);
     return [];
   }
 }
