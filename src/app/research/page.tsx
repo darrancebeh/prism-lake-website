@@ -100,6 +100,16 @@ export default async function ResearchPage() {
           </div>
         </header>
 
+        {/* --- 2. COMPLEXITY LEGEND (Minimal) --- */}
+        <div className="mb-6 flex items-center justify-end gap-4 px-2">
+          <span className="text-[9px] font-mono text-gray-600 uppercase tracking-widest flex items-center gap-2">
+            <span className="w-1 h-1 rounded-full bg-cyan-400" />
+            <span className="w-1 h-1 rounded-full bg-[#1b17ff]" />
+            <span className="w-1 h-1 rounded-full bg-indigo-600" />
+            Complexity Scale
+          </span>
+        </div>
+
         {/* --- 2. MARQUEE --- */}
         <div className="mb-12 overflow-hidden relative">
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#020410] to-transparent z-10" />
@@ -123,67 +133,82 @@ export default async function ResearchPage() {
           {/* FEATURED STORY */}
           <div className="lg:col-span-8 group relative">
             {featuredPost ? (
-              <Link href={`/research/${featuredPost.slug}`} className="block h-full">
-                <div className="h-full glass-panel p-8 md:p-12 rounded-3xl border border-[#1b17ff]/30 bg-gradient-to-br from-[#0a1128] to-[#020410] relative overflow-hidden hover:shadow-[0_0_50px_rgba(27,23,255,0.15)] transition-all duration-500 group-hover:-translate-y-1">
+              <Link href={`/research/${featuredPost.slug}`} className="block h-full relative">
+                
+                {/* ANIMATED BORDER (Appears on Hover) */}
+                <div className="absolute -inset-[2px] rounded-[26px] bg-gradient-to-r from-[#1b17ff] via-cyan-400 to-[#1b17ff] opacity-0 blur-sm group-hover:opacity-100 group-hover:blur-md transition-all duration-500 animate-gradient-xy" />
+                
+                {/* Card Content */}
+                <div className="h-full glass-panel p-8 md:p-12 rounded-3xl border border-[#1b17ff]/20 bg-gradient-to-br from-[#0a1128] to-[#020410] relative overflow-hidden group-hover:border-[#1b17ff] group-hover:shadow-[0_0_60px_rgba(27,23,255,0.3)] transition-all duration-500 group-hover:scale-[0.995]">
                   
-                  {/* Background Glow */}
-                  <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#1b17ff] opacity-10 blur-[100px] group-hover:opacity-20 transition-opacity" />
+                  {/* Enhanced Background Glow */}
+                  <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#1b17ff] opacity-10 blur-[100px] group-hover:opacity-30 transition-all duration-500" />
+                  
+                  {/* Hover Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#1b17ff]/5 via-transparent to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   
                   <div className="relative z-10 flex flex-col h-full justify-between min-h-[420px]">
                     <div>
                       {/* Meta Row */}
                       <div className="flex flex-wrap items-center gap-3 mb-6">
                         {featuredPost.meta.isPinned && (
-                          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-bold font-mono rounded-full tracking-wide flex items-center gap-1 shadow-glow-amber">
+                          <span className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-bold font-mono rounded-full tracking-wide flex items-center gap-1 shadow-glow-amber group-hover:shadow-[0_0_20px_rgba(245,158,11,0.8)] transition-all">
                             <Pin size={10} fill="currentColor" /> PINNED
                           </span>
                         )}
-                        <span className="px-3 py-1 bg-[#1b17ff] text-white text-[10px] font-bold font-mono rounded-full tracking-wide shadow-glow">
+                        <span className="px-3 py-1 bg-[#1b17ff] text-white text-[10px] font-bold font-mono rounded-full tracking-wide shadow-glow group-hover:shadow-[0_0_25px_#1b17ff] transition-all">
                           FEATURED
                         </span>
                         {featuredPost.meta.categories.slice(0, 3).map((cat) => (
-                          <span key={cat} className="text-[10px] font-mono text-[#1b17ff] uppercase bg-[#1b17ff]/10 px-2 py-0.5 rounded border border-[#1b17ff]/20">
+                          <span key={cat} className="text-[10px] font-mono text-[#1b17ff] uppercase bg-[#1b17ff]/10 px-2 py-0.5 rounded border border-[#1b17ff]/20 group-hover:bg-[#1b17ff]/20 group-hover:border-[#1b17ff]/40 transition-all">
                             {cat}
                           </span>
                         ))}
                         <div className="h-4 w-[1px] bg-white/20 hidden sm:block" />
-                        <span className="text-xs text-gray-400 font-mono flex items-center gap-1.5">
-                          <Clock size={12} /> {featuredPost.meta.readTime}
+                        <span className="text-xs text-gray-400 font-mono flex items-center gap-1.5 group-hover:text-gray-300 transition-colors">
+                          <Clock size={12} className="group-hover:text-[#1b17ff] transition-colors" /> {featuredPost.meta.readTime}
                         </span>
+                        <div className="h-4 w-[1px] bg-white/20 hidden sm:block" />
+                        {/* Complexity Badge */}
+                        <div className="flex items-center gap-1" title={`Complexity: ${featuredPost.meta.complexity || 'Medium'}`}>
+                          <div className={`w-1 h-3 rounded-sm transition-all ${featuredPost.meta.complexity ? 'bg-cyan-400' : 'bg-white/10'}`} />
+                          <div className={`w-1 h-3 rounded-sm transition-all ${featuredPost.meta.complexity === 'Medium' || featuredPost.meta.complexity === 'High' ? 'bg-[#1b17ff]' : 'bg-white/10'}`} />
+                          <div className={`w-1 h-3 rounded-sm transition-all ${featuredPost.meta.complexity === 'High' ? 'bg-indigo-600' : 'bg-white/10'}`} />
+                        </div>
                       </div>
                       
-                      <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-[1.1] group-hover:text-[#1b17ff] transition-colors">
+                      <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-[1.1] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:via-[#1b17ff] group-hover:to-cyan-400 transition-all duration-300">
                         {featuredPost.meta.title}
                       </h2>
                       
-                      <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl line-clamp-3">
+                      <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl line-clamp-3 group-hover:text-gray-300 transition-colors">
                         {featuredPost.meta.description}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/10">
+                    <div className="flex items-center justify-between mt-8 pt-8 border-t border-white/10 group-hover:border-[#1b17ff]/30 transition-colors">
                       <div className="flex items-center gap-3">
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/20 p-[1px] bg-gradient-to-tr from-[#1b17ff] to-cyan-500">
-                           <div className="w-full h-full rounded-full overflow-hidden relative">
-                             <Image 
-                               src="/images/darrancebeh2.jpg" 
-                               alt="Author" 
-                               fill 
-                               className="object-cover" 
-                             />
-                           </div>
+                        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/20 p-[1px] bg-gradient-to-tr from-[#1b17ff] to-cyan-500 group-hover:shadow-[0_0_20px_rgba(27,23,255,0.5)] transition-all">
+                          <div className="w-full h-full rounded-full overflow-hidden relative">
+                            <Image 
+                              src="/images/darrancebeh2.jpg" 
+                              alt="Author" 
+                              fill 
+                              className="object-cover" 
+                            />
+                          </div>
                         </div>
                         <div className="text-xs">
                           <div className="text-white font-bold tracking-wide">{featuredPost.meta.author}</div>
-                          <div className="text-[#1b17ff] font-mono text-[10px] uppercase">
+                          <div className="text-[#1b17ff] font-mono text-[10px] uppercase group-hover:text-cyan-400 transition-colors">
                             {featuredPost.meta.authorRole || "GP & Chief Researcher"}
                           </div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 group-hover:bg-[#1b17ff] group-hover:border-[#1b17ff] transition-all">
-                        <span className="text-xs font-bold text-white tracking-wide">READ REPORT</span>
-                        <ArrowRight size={14} className="text-white" />
+                      <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 group-hover:bg-[#1b17ff] group-hover:border-[#1b17ff] group-hover:shadow-[0_0_20px_rgba(27,23,255,0.6)] transition-all">
+                        <span className="text-xs font-bold text-white tracking-wide">READ ARTICLE</span>
+                        <ArrowRight size={14} className="text-white group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </div>
