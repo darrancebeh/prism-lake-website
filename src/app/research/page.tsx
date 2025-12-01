@@ -25,52 +25,37 @@ export const metadata = {
   description: "Real-time market microstructure analysis and volatility research.",
 };
 
-// Helper: Complexity Badge Component
-function ComplexityBadge({ level }: { level?: string }) {
-  const complexity = level || "Medium";
-  const fillCount = complexity === "High" ? 3 : complexity === "Medium" ? 2 : 1;
-  
-  // Color mapping: Low = Blue, Medium = Orange, High = Red
-  const colors = [
-    'bg-[#22d3ee]',           // Bar 1: Cyan
-    'bg-[#1b17ff]',          // Bar 2: Blue
-    'bg-[#4f46e5]'              // Bar 3: Violet
-  ];
-  
-  return (
-    <div className="flex items-center gap-1" title={`Complexity: ${complexity}`}>
-      {[0, 1, 2].map((i) => (
-        <div 
-          key={i} 
-          className={`w-1 h-3 rounded-sm transition-all ${
-            i < fillCount ? colors[i] : 'bg-white/10'
-          }`} 
-        />
-      ))}
-    </div>
-  );
-}
-
 export default async function ResearchPage() {
   // 1. Fetch Data (Parallel)
   const [longFormPosts, flashUpdates] = await Promise.all([
-    getPosts(),         // Long-form articles
-    getFlashUpdates()   // Short flash updates
+    getPosts(),         
+    getFlashUpdates()   
   ]);
   
   // 2. Determine Featured Post
   let featuredPost = longFormPosts.find(p => p.slug === FEATURED_SLUG);
   
   if (!featuredPost) {
-    // Fallback logic
+    // Fallback: Find first pinned post, or just the first post
     featuredPost = longFormPosts.find(p => p.meta.isPinned) || longFormPosts[0];
   }
 
   // 3. The Wire (Flash Updates)
   const wireUpdates = flashUpdates.slice(0, 5);
 
-  // 4. The Archive (Long Form)
-  const archivePosts = longFormPosts;
+  // 4. The Archive (Logic: Deduplicate -> Sort Pinned -> Sort Date)
+  const archivePosts = longFormPosts
+    // Step A: Remove the Featured post so it doesn't show up twice
+    .filter(post => post.slug !== featuredPost?.slug)
+    // Step B: Sort Remainder (Pinned First, Then Newest)
+    .sort((a, b) => {
+      // Priority 1: Is Pinned?
+      if (a.meta.isPinned && !b.meta.isPinned) return -1; // a comes first
+      if (!a.meta.isPinned && b.meta.isPinned) return 1;  // b comes first
+      
+      // Priority 2: Date (Newest First)
+      return new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime();
+    });
 
   return (
     <div className="min-h-screen bg-[#020410] pt-32 pb-20 px-4 md:px-6 relative overflow-hidden">
@@ -132,18 +117,21 @@ export default async function ResearchPage() {
           </div>
         </div>
 
-        {/* --- 3. BENTO SECTION (Featured + Wire) --- */}
+        {/* --- 3. BENTO SECTION --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-24">
             
-          {/* LEFT: FEATURED STORY (Long-Form) */}
+          {/* FEATURED STORY */}
           <div className="lg:col-span-8 group relative">
             {featuredPost ? (
               <Link href={`/research/${featuredPost.slug}`} className="block h-full">
                 <div className="h-full glass-panel p-8 md:p-12 rounded-3xl border border-[#1b17ff]/30 bg-gradient-to-br from-[#0a1128] to-[#020410] relative overflow-hidden hover:shadow-[0_0_50px_rgba(27,23,255,0.15)] transition-all duration-500 group-hover:-translate-y-1">
+                  
+                  {/* Background Glow */}
                   <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#1b17ff] opacity-10 blur-[100px] group-hover:opacity-20 transition-opacity" />
                   
                   <div className="relative z-10 flex flex-col h-full justify-between min-h-[420px]">
                     <div>
+                      {/* Meta Row */}
                       <div className="flex flex-wrap items-center gap-3 mb-6">
                         {featuredPost.meta.isPinned && (
                           <span className="px-3 py-1 bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[10px] font-bold font-mono rounded-full tracking-wide flex items-center gap-1 shadow-glow-amber">
@@ -162,13 +150,12 @@ export default async function ResearchPage() {
                         <span className="text-xs text-gray-400 font-mono flex items-center gap-1.5">
                           <Clock size={12} /> {featuredPost.meta.readTime}
                         </span>
-                        <div className="h-4 w-[1px] bg-white/20 hidden sm:block" />
-                        <ComplexityBadge level={featuredPost.meta.complexity} />
                       </div>
                       
                       <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-[1.1] group-hover:text-[#1b17ff] transition-colors">
                         {featuredPost.meta.title}
                       </h2>
+                      
                       <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl line-clamp-3">
                         {featuredPost.meta.description}
                       </p>
@@ -211,7 +198,7 @@ export default async function ResearchPage() {
             )}
           </div>
 
-          {/* RIGHT: THE "WIRE" (Flash Updates) */}
+          {/* THE WIRE (Flash Updates) */}
           <div className="lg:col-span-4 flex flex-col gap-4 h-full">
             <div className="flex items-center justify-between px-2 mb-1">
               <h3 className="text-xs font-mono text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -221,7 +208,6 @@ export default async function ResearchPage() {
               <span className="text-[10px] font-mono text-[#1b17ff] animate-pulse">RECEIVING DATA...</span>
             </div>
             
-            {/* FLASH UPDATES LOOP */}
             {wireUpdates.length > 0 ? (
               wireUpdates.map((flash) => (
                 <div 
@@ -233,7 +219,6 @@ export default async function ResearchPage() {
                       : 'border-white/5 hover:border-[#1b17ff]/50 hover:bg-[#1b17ff]/5'}
                   `}
                 >
-                  {/* High Impact Pulse */}
                   {flash.meta.impact === 'High' && (
                     <div className="absolute top-3 right-3 flex gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
@@ -268,7 +253,6 @@ export default async function ResearchPage() {
               </div>
             )}
 
-            {/* Subscribe Box */}
             <div className="mt-auto glass-panel p-6 rounded-xl bg-gradient-to-br from-[#1b17ff]/20 to-[#0a1128] border border-[#1b17ff]/30 text-center relative overflow-hidden group">
               <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
                 <Zap size={120} />
@@ -283,7 +267,8 @@ export default async function ResearchPage() {
 
         </div>
 
-        {/* --- 3. THE ARCHIVE (Interactive) --- */}
+
+        {/* --- 3. THE ARCHIVE (Interactive Component) --- */}
         <ArchiveGrid posts={archivePosts} />
 
       </div>
@@ -291,7 +276,6 @@ export default async function ResearchPage() {
   );
 }
 
-// UI Helper
 function CoverageBadge({ icon, label }: { icon: React.ReactNode, label: string }) {
   return (
     <div className="flex items-center gap-1.5 px-3 py-1 bg-[#0a1128] border border-white/10 rounded-full text-[10px] font-bold text-gray-400 font-mono hover:text-white hover:border-[#1b17ff] transition-colors cursor-default">
