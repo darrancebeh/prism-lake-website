@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { MarketTicker } from "@/components/MarketTicker";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import { Analytics } from "@vercel/analytics/next"
 
 // Font Configuration
 const inter = Inter({
@@ -85,6 +86,7 @@ export default function RootLayout({
 
         {/* 4. Global Footer */}
         <Footer />
+        <Analytics />
 
         {/* 5. Global Ambient Effects */}
         <div className="fixed bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1b17ff]/5 to-transparent pointer-events-none z-[-1]" />
