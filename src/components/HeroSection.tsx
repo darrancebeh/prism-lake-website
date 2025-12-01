@@ -42,17 +42,25 @@ export function HeroSection() {
           <WordFlipper />
         </h1>
 
-        {/* Sub-headline */}
-        <p className="text-sm md:text-xl text-gray-400 text-center max-w-2xl mb-10 leading-relaxed font-light px-4">
-          Prism Lake is a student-founded, and Malaysia&apos;s first <span className="text-white font-medium">Quantitative Research & Proprietary Trading Firm</span>.
-          We deploy our proprietary capital into US Equities & Derivatives using institutional-grade and proprietary research.
-        </p>
+        {/* Sub-headline with Subtitle */}
+        <div className="text-center max-w-3xl mb-10 px-4 space-y-6">
+          <p className="text-xls md:text-2xl text-gray-200 leading-tight font-light tracking-relaxed">
+            Malaysia&apos;s pioneering <span className="text-[#1b17ff] font-medium">quantitative research</span> and <span className="text-[#1b17ff] font-medium">proprietary trading</span> firm.
+          </p>
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-12 bg-[#1b17ff]/30"></span>
+            <p className="text-xs md:text-sm text-[#1b17ff] font-mono uppercase tracking-[0.25em] font-bold">
+              Founded by the Next Generation
+            </p>
+            <span className="h-px w-12 bg-[#1b17ff]/30"></span>
+          </div>
+        </div>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-6 sm:px-0">
           <Link 
             href="/apply" 
-            className="w-full sm:w-auto px-8 py-4 bg-[#1b17ff] text-white font-bold rounded-lg hover:bg-[#1b17ff]/90 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(27,23,255,0.4)] text-sm md:text-base"
+            className="w-full font-mono sm:w-auto px-8 py-4 bg-[#1b17ff] text-white font-bold rounded-lg hover:bg-[#1b17ff]/90 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(27,23,255,0.4)] text-sm md:text-base"
           >
             Join The Founding Cohort
             <ArrowRight className="w-4 h-4" />
