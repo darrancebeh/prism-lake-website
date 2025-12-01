@@ -49,7 +49,7 @@ export function MobileFeatureAccordion() {
                 `}>
                   {item.icon}
                 </div>
-                <span className={`font-bold text-lg tracking-tight ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                <span className={`font-bold text-lg tracking-tight font-mono ${isActive ? 'text-white' : 'text-gray-400'}`}>
                   {item.title}
                 </span>
               </div>
@@ -67,7 +67,7 @@ export function MobileFeatureAccordion() {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <div className="px-4 pb-5 pl-[4.5rem] text-sm text-gray-300 font-light leading-relaxed border-t border-[#1b17ff]/10 pt-3 mt-1">
+                  <div className="px-4 pb-5 pl-[4.5rem] text-sm text-gray-300 font-light leading-relaxed border-t border-[#1b17ff]/10 pt-3 mt-1 font-mono">
                     {item.desc}
                   </div>
                 </motion.div>
