@@ -72,7 +72,7 @@ export function Navbar() {
             )}
             <Link 
               href="/apply" 
-              className="flex items-center gap-2 text-xs font-bold bg-[#1b17ff] text-white px-4 py-3 rounded-lg hover:bg-[#1b17ff]/90 transition-all shadow-glow"
+              className="flex items-center font-mono gap-2 text-xs font-bold bg-[#1b17ff] text-white px-4 py-3 rounded-lg hover:bg-[#1b17ff]/90 transition-all shadow-glow"
             >
               JOIN COHORT {"{"}ZERO{"}"} <ArrowUpRight size={14} />
             </Link>
@@ -144,7 +144,7 @@ export function Navbar() {
               <div className="p-4 border-t border-white/5 bg-[#1b17ff]/5">
                 <Link 
                   href="/apply"
-                  className="flex w-full items-center justify-center gap-2 text-sm font-bold bg-[#1b17ff] text-white py-3.5 rounded-xl hover:bg-[#1b17ff]/90 transition-all shadow-lg shadow-[#1b17ff]/20"
+                  className="flex w-full font-mono items-center justify-center gap-2 text-sm font-bold bg-[#1b17ff] text-white py-3.5 rounded-xl hover:bg-[#1b17ff]/90 transition-all shadow-lg shadow-[#1b17ff]/20"
                   onClick={handleLinkClick}
                 >
                   JOIN COHORT {"{"}ZERO{"}"} <ArrowUpRight size={16} />
