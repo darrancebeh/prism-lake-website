@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { getPosts } from "@/lib/blog"; // Direct import from your library
+import { getPosts } from "@/lib/blog"; 
 import { ArrowRight, Lock, BookOpen, Clock } from "lucide-react";
 
 export async function ResearchSection() {
-  // 1. Fetch Data on the Server (Instant Load, Good SEO)
-  // We handle the empty array fallback inside getPosts(), so this is safe.
   const allPosts = await getPosts(); 
   const posts = allPosts.slice(0, 3); // Take the latest 3
 
@@ -26,7 +24,7 @@ export async function ResearchSection() {
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold font-sans text-white">
-            Market <span className="text-[#1b17ff]">Alpha</span>.
+            Market <span className="text-[#1b17ff]">Alpha.</span>
           </h2>
           
           <p className="mt-4 text-gray-400 max-w-xl text-lg font-light leading-relaxed">
@@ -56,14 +54,15 @@ export async function ResearchSection() {
               {/* "Latest Release" Badge (Only on first card) */}
               {index === 0 && (
                 <div className="absolute top-0 right-0 bg-[#1b17ff] text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg z-20 font-mono tracking-wider">
-                  LATEST RELEASE
+                  LATEST SIGNAL
                 </div>
               )}
 
               {/* Meta Tags */}
               <div className="mb-6 flex justify-between items-center z-10">
+                {/* FIX: Use first item in categories array */}
                 <div className="bg-[#1b17ff]/10 text-[#1b17ff] text-[10px] font-bold font-mono py-1.5 px-3 rounded-full border border-[#1b17ff]/20 uppercase tracking-wide">
-                  {post.meta.category}
+                  {post.meta.categories?.[0] || "Research"}
                 </div>
                 <div className="flex items-center gap-1.5 text-gray-500">
                   <Clock size={12} />
