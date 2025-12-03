@@ -1,3 +1,4 @@
+// src/lib/blog.ts
 import matter from "gray-matter";
 
 // --- CONFIGURATION ---
@@ -9,40 +10,32 @@ const TOKEN = process.env.GITHUB_VAULT_TOKEN;
 
 // Validation Check
 if (!REPO_OWNER || !REPO_NAME || !TOKEN) {
-  // In production, you might want to just log a warning instead of crashing
   console.error("❌ MISSING ENV VARIABLES: Please check .env.local for GitHub config.");
 }
 
 export interface FlashUpdate {
-  id: string; // filename
+  id: string;
   meta: {
     headline: string;
-    date: string; // YYYY-MM-DD
-    time: string; // HH:MM (24h)
-    category: string; // e.g. MACRO, EARNINGS
-    impact: "High" | "Medium" | "Low"; // For visual urgency
+    date: string;
+    time: string;
+    category: string;
+    impact: "High" | "Medium" | "Low";
   };
 }
 
-// Interfaces
 export interface Post {
   slug: string;
   meta: {
     title: string;
     date: string;
     description: string;
-    
-    // Taxonomy
     categories: string[]; 
-    isPinned?: boolean; // NEW: Forces post to top
-    complexity?: "Low" | "Medium" | "High"; // NEW: For visual indicators
+    isPinned?: boolean;
+    complexity?: "Low" | "Medium" | "High";
     readTime: string; 
-    
-    // Authorship
     author: string;
-    authorRole?: string; // NEW: Allow override (e.g. "Senior Analyst")
-    
-    // Access
+    authorRole?: string;
     premium?: boolean;
   };
   content: string;
@@ -55,7 +48,7 @@ interface GitHubFile {
 }
 
 // 1. Helper to fetch raw content from GitHub
-async function fetchGithubFile(path: string) {
+async function fetchGithubFile(path: string, cacheTag?: string) {
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
   const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${cleanPath}`;
   
@@ -64,7 +57,10 @@ async function fetchGithubFile(path: string) {
       Authorization: `Bearer ${TOKEN}`,
       Accept: "application/vnd.github.v3.raw", 
     },
-    next: { revalidate: 60 }, // Cache for 1 hour
+    next: { 
+      tags: cacheTag ? [cacheTag] : [],
+      revalidate: false // Only revalidate via webhook
+    },
   });
 
   if (!res.ok) throw new Error(`Failed to fetch ${cleanPath}: ${res.statusText}`);
@@ -72,19 +68,22 @@ async function fetchGithubFile(path: string) {
 }
 
 // 2. Helper to list files
-async function fetchGithubFileList() {
-  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FOLDER_PATH}`;
+async function fetchGithubFileList(folderPath: string, cacheTag: string) {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folderPath}`;
   
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
       Accept: "application/vnd.github.v3+json",
     },
-    next: { revalidate: 60 }, 
+    next: { 
+      tags: [cacheTag],
+      revalidate: false // Only revalidate via webhook
+    },
   });
 
   if (!res.ok) {
-    console.warn(`⚠️ Could not list files in ${FOLDER_PATH}. Status: ${res.status}`);
+    console.warn(`⚠️ Could not list files in ${folderPath}. Status: ${res.status}`);
     return [];
   }
 
@@ -92,14 +91,14 @@ async function fetchGithubFileList() {
   return files.filter((f) => f.name.endsWith(".mdx") && f.type === "file");
 }
 
-// 3. Main function to get all posts (With Sorting Logic)
+// 3. Main function to get all posts
 export async function getPosts(): Promise<Post[]> {
   try {
-    const files = await fetchGithubFileList();
+    const files = await fetchGithubFileList(FOLDER_PATH, 'posts');
     
     const posts = await Promise.all(
       files.map(async (file) => {
-        const rawContent = await fetchGithubFile(file.path);
+        const rawContent = await fetchGithubFile(file.path, 'posts');
         const { data: meta } = matter(rawContent);
         
         return {
@@ -109,9 +108,7 @@ export async function getPosts(): Promise<Post[]> {
       })
     );
 
-    // SORTING LOGIC:
-    // 1. Pinned posts first
-    // 2. Then by Date (Newest first)
+    // Sort: Pinned first, then by date (newest first)
     return posts.sort((a, b) => {
       if (a.meta.isPinned && !b.meta.isPinned) return -1;
       if (!a.meta.isPinned && b.meta.isPinned) return 1;
@@ -124,27 +121,14 @@ export async function getPosts(): Promise<Post[]> {
   }
 }
 
-// --- NEW FUNCTION: GET FLASH UPDATES ---
+// 4. Get Flash Updates
 export async function getFlashUpdates(): Promise<FlashUpdate[]> {
   try {
-    // Reuse the existing helper but point to the new folder
-    // We need to manually construct the url inside fetchGithubFileList to accept a custom path arg
-    // OR we just duplicate the fetch logic slightly for safety/clarity here:
-    
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FLASH_FOLDER_PATH}`;
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-      next: { revalidate: 30 }, // Faster revalidation (30s) for live news
-    });
-
-    if (!res.ok) return []; // Fail silently if folder doesn't exist yet
-
-    const files: GitHubFile[] = await res.json();
-    const validFiles = files.filter((f) => f.name.endsWith(".mdx") && f.type === "file");
+    const files = await fetchGithubFileList(FLASH_FOLDER_PATH, 'flash-updates');
 
     const updates = await Promise.all(
-      validFiles.map(async (file) => {
-        const rawContent = await fetchGithubFile(file.path);
+      files.map(async (file) => {
+        const rawContent = await fetchGithubFile(file.path, 'flash-updates');
         const { data: meta } = matter(rawContent);
         
         return {
@@ -154,7 +138,7 @@ export async function getFlashUpdates(): Promise<FlashUpdate[]> {
       })
     );
 
-    // Sort by Date AND Time (Newest first)
+    // Sort by date + time (newest first)
     return updates.sort((a, b) => {
       const dateA = new Date(`${a.meta.date}T${a.meta.time}`);
       const dateB = new Date(`${b.meta.date}T${b.meta.time}`);
@@ -167,11 +151,11 @@ export async function getFlashUpdates(): Promise<FlashUpdate[]> {
   }
 }
 
-// 4. Get Single Post
+// 5. Get Single Post
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const filePath = `${FOLDER_PATH}/${slug}.mdx`;
-    const rawContent = await fetchGithubFile(filePath);
+    const rawContent = await fetchGithubFile(filePath, 'posts');
     const { data: meta, content } = matter(rawContent);
 
     return {
