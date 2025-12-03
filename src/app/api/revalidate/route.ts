@@ -1,7 +1,10 @@
 // src/app/api/revalidate/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import crypto from 'crypto';
+
+// Specify Node.js runtime (important for crypto module)
+export const runtime = 'nodejs';
 
 // Type definitions for GitHub webhook payload
 interface GitHubCommit {
@@ -66,16 +69,16 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 6. Revalidate cache - Method 1: Use paths only
-    revalidatePath('/research');
+    // 6. Revalidate cache
+    revalidatePath('/research', 'page');
     revalidatePath('/research/[slug]', 'page');
-
+    
     console.log('✅ Cache revalidated successfully');
-
+    
     return NextResponse.json({ 
-    revalidated: true, 
-    timestamp: Date.now(),
-    filesChanged: affectedFiles.length 
+      revalidated: true, 
+      timestamp: Date.now(),
+      filesChanged: affectedFiles.length 
     });
     
   } catch (error) {
@@ -85,4 +88,12 @@ export async function POST(req: NextRequest) {
       error: String(error)
     }, { status: 500 });
   }
+}
+
+// GET handler for testing
+export async function GET() {
+  return NextResponse.json({ 
+    message: 'Webhook endpoint is active. Use POST method.',
+    status: 'ok' 
+  }, { status: 200 });
 }
