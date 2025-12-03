@@ -19,7 +19,7 @@ import { ArchiveGrid } from "@/components/ArchiveGrid";
 import { FadeIn } from "@/components/FadeIn";
 
 // --- CONFIGURATION ---
-const FEATURED_SLUG = "the-structural-decoupling-of-value"; 
+const FEATURED_SLUG = "the-structural-decoupling-of-price-and-value"; 
 
 export const metadata = {
   title: "Prism Intelligence by Prism Lake",
