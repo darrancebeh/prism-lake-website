@@ -249,9 +249,12 @@ export default async function ResearchPage() {
                     glass-panel p-4 rounded-xl border transition-all relative overflow-hidden
                     ${flash.meta.impact === 'High' 
                       ? 'border-red-500/40 bg-red-500/5' 
+                      : flash.meta.impact === 'Medium'
+                      ? 'border-orange-500/30 bg-orange-500/5'
                       : 'border-white/5 hover:border-[#1b17ff]/50 hover:bg-[#1b17ff]/5'}
                   `}
                 >
+                  {/* High Impact Pulse Animation */}
                   {flash.meta.impact === 'High' && (
                     <div className="absolute top-3 right-3 flex gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
@@ -260,21 +263,70 @@ export default async function ResearchPage() {
                   )}
 
                   <div className="flex justify-between items-start mb-2 pr-6">
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center flex-wrap">
                       <span className={`text-[9px] font-mono uppercase px-2 py-0.5 rounded border 
                         ${flash.meta.impact === 'High' 
                           ? 'text-red-400 border-red-500/30 bg-red-500/10' 
+                          : flash.meta.impact === 'Medium'
+                          ? 'text-orange-400 border-orange-500/30 bg-orange-500/10'
                           : 'text-[#1b17ff] border-[#1b17ff]/20 bg-[#1b17ff]/10'}`
                       }>
                         {flash.meta.category}
                       </span>
                       <span className="text-[10px] text-gray-500 font-mono">
-                        {flash.meta.time} ET
+                        {flash.meta.date}
+                      </span>
+                      <span className="text-gray-700">|</span>
+                      <span className="text-[10px] text-gray-500 font-mono">
+                        {flash.meta.time} GMT+8
                       </span>
                     </div>
                   </div>
                   
-                  <h4 className={`text-sm font-bold leading-snug ${flash.meta.impact === 'High' ? 'text-white' : 'text-gray-300'}`}>
+                  {/* Impact Indicator Bar */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[8px] font-mono text-gray-600 uppercase tracking-widest">Impact:</span>
+                    <div className="flex gap-0.5">
+                      <div className={`w-1 h-2 rounded-sm ${
+                        flash.meta.impact === 'High' || flash.meta.impact === 'Medium' || flash.meta.impact === 'Low'
+                          ? flash.meta.impact === 'High' 
+                            ? 'bg-red-500' 
+                            : flash.meta.impact === 'Medium'
+                            ? 'bg-orange-500'
+                            : 'bg-[#1b17ff]'
+                          : 'bg-white/10'
+                      }`} />
+                      <div className={`w-1 h-2 rounded-sm ${
+                        flash.meta.impact === 'High' || flash.meta.impact === 'Medium'
+                          ? flash.meta.impact === 'High' 
+                            ? 'bg-red-500' 
+                            : 'bg-orange-500'
+                          : 'bg-white/10'
+                      }`} />
+                      <div className={`w-1 h-2 rounded-sm ${
+                        flash.meta.impact === 'High'
+                          ? 'bg-red-500'
+                          : 'bg-white/10'
+                      }`} />
+                    </div>
+                    <span className={`text-[8px] font-bold font-mono uppercase tracking-wide ${
+                      flash.meta.impact === 'High' 
+                        ? 'text-red-400' 
+                        : flash.meta.impact === 'Medium'
+                        ? 'text-orange-400'
+                        : 'text-[#1b17ff]'
+                    }`}>
+                      {flash.meta.impact}
+                    </span>
+                  </div>
+                  
+                  <h4 className={`text-sm font-bold leading-snug ${
+                    flash.meta.impact === 'High' 
+                      ? 'text-white' 
+                      : flash.meta.impact === 'Medium'
+                      ? 'text-gray-200'
+                      : 'text-gray-300'
+                  }`}>
                     {flash.meta.headline}
                   </h4>
                 </div>
@@ -286,26 +338,20 @@ export default async function ResearchPage() {
               </div>
             )}
 
+            {/* Subscribe Box */}
             <div className="mt-auto glass-panel p-6 rounded-xl bg-gradient-to-br from-[#1b17ff]/20 to-[#0a1128] border border-[#1b17ff]/30 text-center relative overflow-hidden group">
               <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
                 <Zap size={120} />
               </div>
-              {/* Subscribe Box */}
-              <div className="mt-auto glass-panel p-6 rounded-xl bg-gradient-to-br from-[#1b17ff]/20 to-[#0a1128] border border-[#1b17ff]/30 text-center relative overflow-hidden group">
-                <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                  <Zap size={120} />
-                </div>
-                <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Prism Access.</h4>
-                <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Proprietary Insights and Coverage. Straight from our research team.</p>
-                
-                {/* NEW LINK BUTTON */}
-                <Link 
-                  href="/subscribe"
-                  className="block w-full py-3 bg-[#1b17ff] text-white font-bold text-xs rounded-lg shadow-lg hover:bg-[#1b17ff]/90 transition-all relative z-10 tracking-widest border border-white/10"
-                >
-                  INITIALIZE SUBSCRIPTION
-                </Link>
-              </div>
+              <h4 className="text-white font-bold text-lg mb-1 relative z-10">Inner Prism Access.</h4>
+              <p className="text-gray-400 text-xs mb-4 relative z-10 font-light">Proprietary Insights and Coverage. Straight from our research team.</p>
+              
+              <Link 
+                href="/subscribe"
+                className="block w-full py-3 bg-[#1b17ff] text-white font-bold text-xs rounded-lg shadow-lg hover:bg-[#1b17ff]/90 transition-all relative z-10 tracking-widest border border-white/10"
+              >
+                INITIALIZE SUBSCRIPTION
+              </Link>
             </div>
           </div>
 
