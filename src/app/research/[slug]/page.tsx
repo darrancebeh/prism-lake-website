@@ -6,7 +6,6 @@ import { CommentSection } from "@/components/CommentSection";
 import { ReactionBar } from "@/components/ReactionBar";
 import { Metadata } from 'next';
 import { ArticleFooter } from "@/components/ArticleFooter";
-import { ViewTracker } from "@/components/ViewTracker";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -120,12 +119,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               </div>
           </div>
         </div>
-
-        {/* View Count */}
-        <div className="flex justify-center">
-          <ViewTracker slug={post.slug} />
-        </div>
-
       </header>
 
       {/* --- 2. CONTENT BODY --- */}
