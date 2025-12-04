@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // Upsert Logic: Increment the count for the given slug, creating the row if it doesn't exist.
+    /*
     const result = await sql`
       INSERT INTO views (slug, count)
       VALUES (${slug}, 1)
@@ -17,9 +18,10 @@ export async function POST(req: NextRequest) {
       SET count = views.count + 1
       RETURNING count;
     `;
+    */ 
 
     // The result.rows[0].count will be the new total count
-    return NextResponse.json({ views: result.rows[0].count });
+    return NextResponse.json({ views: 0 });
     
   } catch (error) {
     console.error("View tracking error:", error);
