@@ -160,13 +160,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <ArticleFooter author={post.meta.author} />
       </div>
 
-      {!post.meta.premium && (
-        <div className="animate-fade-in-up delay-200">
-          <ReactionBar />
-          <CommentSection />
-        </div>
-      )}
-
     </article>
   );
 }
