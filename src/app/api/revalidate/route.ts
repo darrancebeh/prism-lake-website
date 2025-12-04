@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import crypto from 'crypto';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
-// 1. Define the shape of the data we expect from GitHub
 interface GitHubCommit {
   added: string[];
   modified: string[];
@@ -13,18 +13,34 @@ interface GitHubCommit {
 
 interface GitHubWebhookPayload {
   commits?: GitHubCommit[];
+  ref?: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
+    console.log('🔔 Webhook POST received');
+    
     const textBody = await req.text();
     const signature = req.headers.get('x-hub-signature-256');
     const secret = process.env.REVALIDATION_SECRET;
 
-    if (!secret || !signature) {
-      return NextResponse.json({ message: 'Missing secret' }, { status: 401 });
+    if (!secret) {
+      console.error('❌ REVALIDATION_SECRET not configured');
+      return NextResponse.json(
+        { message: 'Server configuration error' }, 
+        { status: 500 }
+      );
     }
 
+    if (!signature) {
+      console.error('❌ No signature provided');
+      return NextResponse.json(
+        { message: 'No signature provided' }, 
+        { status: 401 }
+      );
+    }
+
+    // Verify HMAC signature
     const hmac = crypto.createHmac('sha256', secret);
     const digest = 'sha256=' + hmac.update(textBody).digest('hex');
     
@@ -33,37 +49,78 @@ export async function POST(req: NextRequest) {
 
     if (signatureBuffer.length !== digestBuffer.length || 
         !crypto.timingSafeEqual(signatureBuffer, digestBuffer)) {
-      return NextResponse.json({ message: 'Invalid signature' }, { status: 401 });
+      console.error('❌ Invalid signature');
+      return NextResponse.json(
+        { message: 'Invalid signature' }, 
+        { status: 401 }
+      );
     }
 
-    // 2. Apply the type to the parsed JSON
+    console.log('✅ Signature verified');
+
     const payload = JSON.parse(textBody) as GitHubWebhookPayload;
 
-    // 3. No more 'any' - TypeScript knows 'c' is a GitHubCommit
     const affectedFiles: string[] = payload.commits?.flatMap((c) => [
-      ...c.added, ...c.modified, ...c.removed
+      ...c.added, 
+      ...c.modified, 
+      ...c.removed
     ]) || [];
 
+    console.log('📁 Files changed:', affectedFiles);
+
     const hasContentChanges = affectedFiles.some((file) => 
-      file.startsWith('content/') && file.endsWith('.mdx')
+      file.startsWith('content/') || 
+      file.includes('.mdx') ||
+      file.includes('.md')
     );
 
     if (!hasContentChanges) {
-      return NextResponse.json({ message: 'No MDX changes detected' });
+      console.log('ℹ️ No content changes detected');
+      return NextResponse.json({ 
+        message: 'No content changes detected',
+        revalidated: false 
+      });
     }
 
-    revalidateTag('research-content');
+    // Revalidate paths
+    console.log('🔄 Revalidating...');
+    revalidatePath('/research', 'page');
+    revalidatePath('/research/[slug]', 'page');
+    revalidatePath('/', 'page');
     
-    console.log(`✅ Cache purged. Changed files: ${affectedFiles.length}`);
+    console.log('✅ Revalidation complete');
     
     return NextResponse.json({ 
       revalidated: true, 
-      now: Date.now(),
-      files: affectedFiles.length
+      timestamp: Date.now(),
+      filesChanged: affectedFiles.length,
+      files: affectedFiles
+    }, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
     
   } catch (error) {
-    console.error('Revalidation Error:', error);
-    return NextResponse.json({ message: 'Error' }, { status: 500 });
+    console.error('❌ Revalidation error:', error);
+    return NextResponse.json({ 
+      message: 'Error revalidating',
+      error: String(error)
+    }, { status: 500 });
   }
+}
+
+// GET handler for health check
+export async function GET() {
+  return NextResponse.json({ 
+    message: 'Webhook endpoint active',
+    status: 'ok',
+    timestamp: Date.now()
+  }, { 
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
 }

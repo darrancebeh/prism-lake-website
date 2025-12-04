@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/revalidate",
+      "destination": "/api/revalidate"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, must-revalidate"
+        }
+      ]
+    }
+  ]
+}

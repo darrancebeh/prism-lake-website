@@ -6,6 +6,7 @@ import { CommentSection } from "@/components/CommentSection";
 import { ReactionBar } from "@/components/ReactionBar";
 import { Metadata } from 'next';
 import { ArticleFooter } from "@/components/ArticleFooter";
+import { MDXImage } from "@/components/MDXImage";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -43,6 +44,18 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = await getPostBySlug(slug);
 
   if (!post) return <div className="text-center py-20 text-gray-500">Post not found</div>;
+
+  // Define MDX components with proper typing
+  const components = {
+    img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+      <MDXImage 
+        src={typeof props.src === 'string' ? props.src : ''} 
+        alt={props.alt || ''} 
+        width={typeof props.width === 'number' ? props.width : undefined}
+        height={typeof props.height === 'number' ? props.height : undefined}
+      />
+    ),
+  };
 
   return (
     <article className="min-h-screen pt-40 pb-20 px-4">
@@ -133,7 +146,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           prose-blockquote:border-l-[#1b17ff] prose-blockquote:bg-[#1b17ff]/5 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:not-italic prose-blockquote:rounded-r-lg
           ${post.meta.premium ? 'mask-gradient' : ''}`}
         >
-          <MDXRemote source={post.content} />
+          <MDXRemote source={post.content} components={components} />
         </div>
 
         {/* PAYWALL OVERLAY */}
