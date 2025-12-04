@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Eye } from "lucide-react";
 
 interface ViewTrackerProps {
@@ -9,9 +9,19 @@ interface ViewTrackerProps {
 
 export function ViewTracker({ slug }: ViewTrackerProps) {
   const [views, setViews] = useState<number | null>(null);
+  
+  // 1. The Safety Lock
+  // usage of useRef persists values between renders without triggering a re-render
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    // Only run this once on the client side (after mount)
+    // 2. The Guard Clause
+    // If we have already fetched, STOP immediately.
+    if (hasFetched.current) return;
+
+    // 3. Lock it down
+    hasFetched.current = true;
+
     const trackView = async () => {
       try {
         const res = await fetch("/api/views", {
@@ -25,29 +35,20 @@ export function ViewTracker({ slug }: ViewTrackerProps) {
           setViews(data.views);
         }
       } catch (error) {
-        console.error("Could not track view:", error);
+        console.error("Tracking error:", error);
       }
     };
-    
-    // Check if the current environment is the client browser (for safety)
-    if (typeof window !== 'undefined') {
-        trackView();
-    }
-    
-  }, [slug]);
 
-  if (views === null) {
-    // Hide the metric until the count is received
-    return <div className="h-6" />; 
-  }
+    trackView();
+    
+  }, [slug]); // Dependencies look correct, but useRef makes it double-safe
 
-  // Use toLocaleString for professional number formatting (e.g., 1,234)
-  const formattedViews = views.toLocaleString();
+  if (views === null) return <div className="h-4 w-8 bg-white/5 rounded animate-pulse mt-4" />;
 
   return (
-    <div className="flex justify-center items-center gap-3 mt-4 text-sm font-mono text-gray-500">
-      <Eye size={16} className="text-[#1b17ff]" />
-      <span>{formattedViews} views</span>
+    <div className="flex justify-center items-center gap-2 mt-4 text-xs font-mono text-gray-500">
+      <Eye size={14} className="text-[#1b17ff]" />
+      <span>{views.toLocaleString()} views</span>
     </div>
   );
 }
