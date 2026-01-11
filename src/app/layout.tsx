@@ -88,8 +88,6 @@ export default function RootLayout({
         <Footer />
         <Analytics />
 
-        {/* 5. Global Ambient Effects */}
-        <div className="fixed bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#1b17ff]/5 to-transparent pointer-events-none z-[-1]" />
         
       </body>
     </html>

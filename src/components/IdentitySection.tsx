@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Target, Zap, Eye, Cpu, Globe, Layers, Award, ChevronDown } from "lucide-react";
+import { Zap, Eye, Cpu, Globe, Layers, Award, ChevronDown, TrendingUp, Shield, Lightbulb } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function IdentitySection() {
@@ -17,7 +17,7 @@ export function IdentitySection() {
           <div className="h-1 w-20 bg-[#1b17ff]" />
         </div>
         <p className="text-gray-500 font-mono text-xs uppercase tracking-widest max-w-xs text-left md:text-right">
-          Defining the standard for quantitive research & proprietary trading. In Malaysia.
+          Defining the standard.
         </p>
       </div>
 
@@ -29,8 +29,8 @@ export function IdentitySection() {
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <Globe size={100} />
           </div>
-          <h3 className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-3">
-            <Target size={14} /> The Vision
+          <h3 className="text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-3">
+            The Vision
           </h3>
           <h4 className="text-2xl font-bold text-white mb-4 leading-tight">
             Malaysia&apos;s Premier <br/>
@@ -38,7 +38,7 @@ export function IdentitySection() {
           </h4>
           <p className="text-gray-400 text-sm leading-relaxed">
             We envision a self-sustaining institution where elite talent from  
-            <span className="text-white font-medium"> Finance</span> and <span className="text-white font-medium"> Technology</span> converge. Our goal is to build a localized firm operating with the sophistication of a global hedge fund.
+            <span className="text-white font-medium"> Finance</span> and <span className="text-white font-medium"> Technology</span> converge to solve complex market inefficiencies. Our goal is to build a sovereign firm operating with the sophistication of a global hedge fund.
           </p>
         </div>
 
@@ -52,17 +52,17 @@ export function IdentitySection() {
           
           <div className="flex flex-col">
             <MobileAccordionItem 
-              icon={<Zap size={16} />} 
+              icon={<TrendingUp size={16} />} 
               title="Performance" 
               desc="To generate superior risk-adjusted returns by leveraging advanced quantitative research to capitalize on market inefficiencies."
             />
             <MobileAccordionItem 
-              icon={<Eye size={16} />} 
+              icon={<Shield size={16} />} 
               title="Transparency" 
               desc="To build trust and accountability by operating with radical transparency. We document our research, logic, and performance to establish a new standard of trust."
             />
             <MobileAccordionItem 
-              icon={<Cpu size={16} />} 
+              icon={<Lightbulb size={16} />} 
               title="Innovation" 
               desc="To push boundaries by cultivating a high-performance environment where analysts and researchers drive groundbreaking innovation."
               isLast
@@ -84,9 +84,9 @@ export function IdentitySection() {
             <h3 className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-2">
               <Award size={14} /> The Culture
             </h3>
-            <h4 className="text-xl font-bold text-white mb-2">Meritocracy & Adhocracy.</h4>
+            <h4 className="text-xl font-bold text-white mb-2">Meritocracy & Autonomy.</h4>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Impact is determined by <strong>quality of thought</strong>, not seniority.
+              Impact is determined by the <strong>quality of thought</strong>, not seniority. We empower nimble teams to solve hard problems at speed.
             </p>
           </div>
         </div>
@@ -102,8 +102,8 @@ export function IdentitySection() {
             <Globe size={200} />
           </div>
           <div className="relative z-10">
-            <h3 className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-4">
-              <Target size={14} /> The Vision
+            <h3 className="text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-4">
+              The Vision
             </h3>
             <h4 className="text-4xl font-bold text-white mb-6 leading-tight">
               Malaysia&apos;s Premier <br/>
@@ -112,8 +112,8 @@ export function IdentitySection() {
             <p className="text-gray-400 leading-relaxed max-w-lg text-base">
               We envision a self-sustaining institution where elite talent from 
               <span className="text-white font-medium"> Finance</span> and 
-              <span className="text-white font-medium"> Technology</span> converge. 
-              Our goal is to build a localized firm operating with the sophistication of a global hedge fund.
+              <span className="text-white font-medium"> Technology</span> converge to solve complex market inefficiencies. 
+              Our goal is to build a sovereign firm operating with the sophistication of a global hedge fund.
             </p>
           </div>
         </div>
@@ -124,13 +124,13 @@ export function IdentitySection() {
             <Layers size={14} /> Core Objectives
           </h3>
           <div className="space-y-8 flex-grow">
-            <DesktopObjectiveItem icon={<Zap size={18} />} title="Performance">
+            <DesktopObjectiveItem icon={<TrendingUp size={18} />} title="Performance">
               To generate superior, sustainable risk-adjusted returns by leveraging advanced quantitative research.
             </DesktopObjectiveItem>
-            <DesktopObjectiveItem icon={<Eye size={18} />} title="Transparency">
+            <DesktopObjectiveItem icon={<Shield size={18} />} title="Transparency">
               To build trust by publicly documenting our research, logic, and performance metrics.
             </DesktopObjectiveItem>
-            <DesktopObjectiveItem icon={<Cpu size={18} />} title="Innovation">
+            <DesktopObjectiveItem icon={<Lightbulb size={18} />} title="Innovation">
               To continuously push boundaries by cultivating an environment where finance meets machine precision.
             </DesktopObjectiveItem>
           </div>
@@ -150,9 +150,9 @@ export function IdentitySection() {
           <h3 className="flex items-center gap-2 text-[#1b17ff] font-mono text-xs uppercase tracking-widest mb-4">
             <Award size={14} /> The Culture
           </h3>
-          <h4 className="text-2xl font-bold text-white mb-2">Meritocracy & Adhocracy.</h4>
+          <h4 className="text-2xl font-bold text-white mb-2">Meritocracy & Autonomy.</h4>
           <p className="text-gray-400 text-sm leading-relaxed mt-2">
-            Impact is determined by the <strong>quality of thought,</strong> not seniority. We foster fluid structures to solve hard problems at speed.
+            Impact is determined by the <strong>quality of thought</strong>, not seniority. We empower nimble teams to solve hard problems at speed.
           </p>
         </div>
 
