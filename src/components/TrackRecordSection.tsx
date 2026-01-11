@@ -132,8 +132,8 @@ export function TrackRecordSection() {
                 <thead>
                   <tr className="border-b border-white/10">
                     <th className="text-left py-3 px-2 text-gray-400 font-normal">Year</th>
-                    <th className="text-right py-3 px-2 text-gray-400 font-normal">Prism Lake</th>
-                    <th className="text-right py-3 px-2 text-gray-400 font-normal">S&P 500</th>
+                    <th className="text-right py-3 px-2 text-gray-400 font-normal whitespace-nowrap">Prism Lake</th>
+                    <th className="text-right py-3 px-2 text-gray-400 font-normal whitespace-nowrap">S&P 500</th>
                     <th className="text-right py-3 px-2 text-gray-400 font-normal">Alpha</th>
                   </tr>
                 </thead>
