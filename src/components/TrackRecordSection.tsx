@@ -67,7 +67,7 @@ export function TrackRecordSection() {
               {/* Right: The Visual "Alpha Gap" */}
               <div className="bg-[#020410] rounded-xl border border-white/10 p-5 md:p-6 shadow-2xl">
                 <div className="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
-                  <span className="text-[10px] md:text-xs font-mono text-gray-400 uppercase">Two-Year Cumulative Return</span>
+                  <span className="text-[10px] md:text-xs font-mono text-gray-400 uppercase">Cumulative Return (2024 + 2025)</span>
                   <div className="flex gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#1b17ff]"></span>
                     <span className="w-2 h-2 rounded-full bg-gray-600"></span>
