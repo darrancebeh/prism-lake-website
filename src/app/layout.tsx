@@ -81,7 +81,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen bg-[#020410] text-white selection:bg-[#1b17ff] selection:text-white">
         <ScrollProgress />
         {/* 1. Global Ticker (Fixed Top) */}
-        <MarketTicker />
+        {/* <MarketTicker /> */}
         
         {/* 2. Global Navbar (Floating) */}
         <Navbar />

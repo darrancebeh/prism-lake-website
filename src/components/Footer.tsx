@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail, Twitter, Instagram} from "lucide-react";
 
 export function Footer() {
   return (
@@ -28,9 +28,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               <SocialIcon icon={<Linkedin size={20} />} href="https://www.linkedin.com/company/prism-lake" />
-              <SocialIcon icon={<Github size={20} />} href="#" />
-              <SocialIcon icon={<Twitter size={20} />} href="#" />
-              <SocialIcon icon={<Mail size={20} />} href="mailto:contact@prismlake.com" />
+              <SocialIcon icon={<Instagram size={20} />} href="https://www.instagram.com/prism.lake/" />
             </div>
           </div>
 
@@ -40,12 +38,12 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-gray-500 font-mono">
               <li><Link href="/" className="hover:text-[#1b17ff] transition-colors">Mission</Link></li>
               <li><Link href="/research" className="hover:text-[#1b17ff] transition-colors">Intelligence</Link></li>
-              <li><Link href="/careers" className="hover:text-[#1b17ff] transition-colors">Careers</Link></li>
+              <li><Link href="https://www.linkedin.com/company/prism-lake/" target="_blank" className="hover:text-[#1b17ff] transition-colors">LinkedIn</Link></li>
             </ul>
           </div>
 
           {/* Column 3: Legal */}
-          <div>
+          {/* <div>
             <h4 className="text-white font-bold mb-6 font-mono text-sm uppercase">Legal</h4>
             <ul className="space-y-4 text-sm text-gray-500 font-mono">
               <li className="hover:text-white cursor-not-allowed">Terms of Service</li>
@@ -53,6 +51,7 @@ export function Footer() {
               <li className="hover:text-white cursor-not-allowed">Risk Disclosure</li>
             </ul>
           </div>
+        </div> */}
         </div>
  
         {/* Disclaimer / Compliance */}

@@ -64,17 +64,20 @@ export function Navbar() {
 
           {/* --- RIGHT: ACTIONS (Desktop) --- */}
           <div className="hidden md:flex items-center gap-4 shrink-0">
+            {/*
             {segments.length === 0 && (
               <div className="flex gap-6 text-xs font-mono text-gray-400 glass-panel px-4 py-3 rounded-lg">
                 <Link href="/research" className="hover:text-[#1b17ff] transition-colors">INTELLIGENCE</Link>
                 <Link href="/careers" className="hover:text-[#1b17ff] transition-colors">CAREER</Link>
               </div>
             )}
+
+            */}
             <Link 
-              href="/apply" 
+              href="/research" 
               className="flex items-center font-mono gap-2 text-xs font-bold bg-[#1b17ff] text-white px-4 py-3 rounded-lg hover:bg-[#1b17ff]/90 transition-all shadow-glow"
             >
-              JOIN COHORT {"{"}ZERO{"}"} <ArrowUpRight size={14} />
+              PRISM INTELLIGENCE <ArrowUpRight size={14} />
             </Link>
           </div>
 

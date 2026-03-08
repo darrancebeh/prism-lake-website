@@ -48,10 +48,17 @@ export function HeroSection() {
               {/* CTAs */}
               <div className="flex flex-col gap-3 w-full">
                 <Link 
-                  href="/careers" 
+                  href="#identity-section" 
                   className="group inline-flex items-center justify-between px-6 py-4 bg-white text-black font-medium text-sm rounded hover:bg-gray-200 transition-all"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('identity-section')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }}
                 >
-                  Join The Team
+                  Our Identity
                   <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
                 </Link>
                 
@@ -66,7 +73,7 @@ export function HeroSection() {
                     });
                   }}
                 >
-                  Our Approach
+                  Our Track Record
                   <ArrowRight className="w-4 h-4 opacity-50 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

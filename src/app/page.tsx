@@ -21,23 +21,23 @@ export default function Home() {
         <HeroSection />
 
       {/* --- SECTIONS STACK --- */}
-      <FadeIn><PartnersSection /></FadeIn>
-      <FadeIn><IdentitySection /></FadeIn>
+      <FadeIn id ="partner-section"><PartnersSection /></FadeIn>
+      <FadeIn id ="identity-section"><IdentitySection /></FadeIn>
       <FadeIn id="track-record"><TrackRecordSection /></FadeIn>
-      <FadeIn><FounderSection /></FadeIn>
+      <FadeIn id="founder-section"><FounderSection /></FadeIn>
       
       {/* This async component will now work because page.tsx is a Server Component */}
-      <FadeIn><ResearchSection /></FadeIn>
+      <FadeIn id="research-section"><ResearchSection /></FadeIn>
       
       {/* 6. Final CTA Footer */}
       <section className="py-20 md:py-32 text-center relative z-10 px-4">
         <FadeIn>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to build the future?</h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto text-sm md:text-base">
-            We are looking for the obsessive few. If you dream in Python and Volatility, we have a desk for you.
+            We are looking for the obsessive few. If you dream about the markets, we should definitely have a chat.
           </p>
-          <Link href="/careers" className="inline-flex px-10 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold tracking-wide text-sm md:text-base">
-             VIEW OPEN ROLES
+          <Link href="https://www.linkedin.com/company/prism-lake" target="_blank" className="inline-flex px-10 py-4 border border-[#1b17ff] text-[#1b17ff] hover:bg-[#1b17ff] hover:text-white transition-all rounded-lg font-bold tracking-wide text-sm md:text-base">
+             GET CONNECTED
           </Link>
         </FadeIn>
       </section>

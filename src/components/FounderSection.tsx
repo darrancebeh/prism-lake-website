@@ -62,8 +62,8 @@ export function FounderSection() {
             
             {/* --- JUSTIFIED BIO TEXT --- */}
             <p className="text-gray-300 leading-relaxed font-light text-sm md:text-base mb-6 text-justify hyphens-auto">
-              A first-class Computer Science undergrad and active discretionary and quantitative investor-trader navigating the markets since 15 in 2020.
-              He specializes in <span className="text-white font-medium">Game Theory, Statistical & Informational Arbitrage, and Econometrics</span>, and leverages on a background in <span className="text-white font-medium">Competitive Programming</span> and <span className="text-white font-medium"> State-Level Debating</span> to exploit market psychology.
+              Having started trading in equities and commodities since 15. Today, he is a first-class Computer Science undergraduate and an active discretionary and quantitative trader.
+              He specializes in <span className="text-white font-medium">Game Theory, Adversarial Thinking, Statistical & Informational Arbitrage, and Econometrics</span> to exploit both mathematical inefficiencies and human market psychology.
             </p>
 
             <div className="flex flex-col md:flex-row items-center gap-4">
