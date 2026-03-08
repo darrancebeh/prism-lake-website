@@ -64,8 +64,8 @@ export function ArticleFooter({ author }: ArticleFooterProps) {
             </div>
 
             <p className="text-sm text-gray-400 leading-relaxed mb-6 max-w-2xl font-light">
-              Computer Science undergrad and discretionary proprietary trader specializing in informational and volatility arbitrage and market microstructure. 
-              Currently self-funding university tuition via market alpha. Building Prism Lake to bridge the gap between Wall Street and Kuala Lumpur.
+              Discretionary proprietary trader that specializes in Game Theory, Adversarial Thinking, Statistical & Informational Arbitrage, and Econometrics to exploit mathematical inefficiencies and human market psychology in financial markets.
+              <br></br>Building Prism Lake to bridge the gap between Wall Street and Kuala Lumpur.
             </p>
 
             {/* Social Links */}
