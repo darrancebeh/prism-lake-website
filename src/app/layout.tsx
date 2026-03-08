@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     type: 'website',
     images : [
       {
-        url: '/opengraph_image.png',
+        url: '/opengraph-image.png',
         width: 1200,
         height: 630,
         alt: 'Prism Lake Open Graph Image',
