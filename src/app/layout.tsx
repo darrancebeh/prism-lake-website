@@ -23,8 +23,8 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   // 1. Base URL: Critical for social images to resolve correctly
   // Replace 'https://prism-lake.vercel.app' with your actual custom domain if you have one
-  metadataBase: new URL('https://prism-lake.vercel.app'), 
-
+  metadataBase: new URL('https://prismlake.com'),
+  
   // 2. Title Template: Allows sub-pages to look like "Article Name | Prism Lake"
   title: {
     default: "Prism Lake",

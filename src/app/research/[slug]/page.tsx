@@ -23,11 +23,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: 'article',
       publishedTime: post.meta.date,
       authors: [post.meta.author],
+      images: [
+        {
+          url: '/opengraph-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'Prism Lake',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.meta.title,
       description: post.meta.description,
+      images: ['/opengraph-image.png'],
     },
   };
 }
