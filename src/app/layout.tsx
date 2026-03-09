@@ -45,14 +45,6 @@ export const metadata: Metadata = {
     siteName: 'Prism Lake',
     locale: 'en_US',
     type: 'website',
-    images : [
-      {
-        url: '/opengraph-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Prism Lake Open Graph Image',
-      },
-    ],
   },
 
   // 5. Twitter Card (X)
